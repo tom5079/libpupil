@@ -16,8 +16,17 @@
 
 package xyz.quaver
 
-
+/**
+ * Code to distinguish the [Reader][xyz.quaver.hitomi.Reader]'s site of origin
+ */
 enum class Code {
+    /**
+     * Code for [hitomi.la](https://hitomi.la)
+     */
     HITOMI,
+
+    /**
+     * Code for [hiyobi.me](https://hiyobi.me)
+     */
     HIYOBI
 }
