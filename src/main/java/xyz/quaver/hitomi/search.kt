@@ -16,12 +16,15 @@
 
 package xyz.quaver.hitomi
 
-import xyz.quaver.proxy
+import okhttp3.Request
+import xyz.quaver.client
+import xyz.quaver.readBytes
+import xyz.quaver.readText
+import java.lang.Integer.min
 import java.net.URL
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.security.MessageDigest
-import javax.net.ssl.HttpsURLConnection
 
 //searchlib.js
 const val separator = "-"
@@ -32,8 +35,8 @@ const val max_node_size = 464
 const val B = 16
 const val compressed_nozomi_prefix = "n"
 
-var tag_index_version = getIndexVersion("tagindex")
-var galleries_index_version = getIndexVersion("galleriesindex")
+val tag_index_version: String by lazy { getIndexVersion("tagindex") }
+val galleries_index_version: String by lazy { getIndexVersion("galleriesindex") }
 
 fun sha256(data: ByteArray) : ByteArray {
     return MessageDigest.getInstance("SHA-256").digest(data)
@@ -48,15 +51,8 @@ fun sanitize(input: String) : String {
     return input.replace(Regex("[/#]"), "")
 }
 
-fun getIndexVersion(name: String) : String {
-    return try {
-        URL("$protocol//$domain/$name/version?_=${System.currentTimeMillis()}").openConnection(proxy).getInputStream().use {
-            it.reader().readText()
-        }
-    } catch (e: Exception) {
-        ""
-    }
-}
+fun getIndexVersion(name: String) =
+        URL("$protocol//$domain/$name/version?_=${System.currentTimeMillis()}").readText()
 
 //search.js
 fun getGalleryIDsForQuery(query: String) : List<Int> {
@@ -121,15 +117,12 @@ fun getSuggestionsForQuery(query: String) : List<Suggestion> {
 
 data class Suggestion(val s: String, val t: Int, val u: String, val n: String)
 fun getSuggestionsFromData(field: String, data: Pair<Long, Int>) : List<Suggestion> {
-    if (tag_index_version.isEmpty())
-        tag_index_version = getIndexVersion("tagindex")
-
     val url = "$protocol//$domain/$index_dir/$field.$tag_index_version.data"
     val (offset, length) = data
     if (length > 10000 || length <= 0)
         throw Exception("length $length is too long")
 
-    val inbuf = getURLAtRange(url, offset.until(offset+length)) ?: return emptyList()
+    val inbuf = getURLAtRange(url, offset.until(offset+length))
 
     val suggestions = ArrayList<Suggestion>()
 
@@ -176,14 +169,12 @@ fun getGalleryIDsFromNozomi(area: String?, tag: String, language: String) : List
             }
 
     val bytes = try {
-        URL(nozomiAddress).openConnection(proxy).getInputStream().use {
-            it.readBytes()
-        }
+        URL(nozomiAddress).readBytes()
     } catch (e: Exception) {
         return emptyList()
     }
 
-    val nozomi = ArrayList<Int>()
+    val nozomi = mutableListOf<Int>()
 
     val arrayBuffer = ByteBuffer
         .wrap(bytes)
@@ -196,15 +187,12 @@ fun getGalleryIDsFromNozomi(area: String?, tag: String, language: String) : List
 }
 
 fun getGalleryIDsFromData(data: Pair<Long, Int>) : List<Int> {
-    if (galleries_index_version.isEmpty())
-        galleries_index_version = getIndexVersion("galleriesindex")
-
     val url = "$protocol//$domain/$galleries_index_dir/galleries.$galleries_index_version.data"
     val (offset, length) = data
     if (length > 100000000 || length <= 0)
         throw Exception("length $length is too long")
 
-    val inbuf = getURLAtRange(url, offset.until(offset+length)) ?: return emptyList()
+    val inbuf = getURLAtRange(url, offset.until(offset+length))
 
     val galleryIDs = ArrayList<Int>()
 
@@ -228,34 +216,24 @@ fun getGalleryIDsFromData(data: Pair<Long, Int>) : List<Int> {
 }
 
 fun getNodeAtAddress(field: String, address: Long) : Node? {
-    if (tag_index_version.isEmpty())
-        tag_index_version = getIndexVersion("tagindex")
-    if (galleries_index_version.isEmpty())
-        galleries_index_version = getIndexVersion("galleriesindex")
-
     val url =
             when(field) {
                 "galleries" -> "$protocol//$domain/$galleries_index_dir/galleries.$galleries_index_version.index"
                 else -> "$protocol//$domain/$index_dir/$field.$tag_index_version.index"
             }
 
-    val nodedata = getURLAtRange(url, address.until(address+max_node_size)) ?: return null
+    val nodedata = getURLAtRange(url, address.until(address+max_node_size))
 
     return decodeNode(nodedata)
 }
 
-fun getURLAtRange(url: String, range: LongRange) : ByteArray? {
-    try {
-        with (URL(url).openConnection(proxy) as HttpsURLConnection) {
-            requestMethod = "GET"
-
-            setRequestProperty("Range", "bytes=${range.first}-${range.last}")
-
-            return inputStream.readBytes()
-        }
-    } catch (e: Exception) {
-        return null
-    }
+fun getURLAtRange(url: String, range: LongRange) : ByteArray {
+    val request = Request.Builder()
+        .url(url)
+        .header("Range", "bytes=${range.first}-${range.last}")
+        .build()
+    
+    return client.newCall(request).execute().body()?.use { it.bytes() } ?: byteArrayOf()
 }
 
 @OptIn(ExperimentalUnsignedTypes::class)
@@ -305,7 +283,7 @@ fun decodeNode(data: ByteArray) : Node {
 @OptIn(ExperimentalUnsignedTypes::class)
 fun bSearch(field: String, key: UByteArray, node: Node) : Pair<Long, Int>? {
     fun compareArrayBuffers(dv1: UByteArray, dv2: UByteArray) : Int {
-        val top = Math.min(dv1.size, dv2.size)
+        val top = min(dv1.size, dv2.size)
 
         for (i in 0.until(top)) {
             if (dv1[i] < dv2[i])
@@ -318,7 +296,7 @@ fun bSearch(field: String, key: UByteArray, node: Node) : Pair<Long, Int>? {
     }
 
     fun locateKey(key: UByteArray, node: Node) : Pair<Boolean, Int> {
-        for (i in 0 until node.keys.size) {
+        for (i in node.keys.indices) {
             val cmpResult = compareArrayBuffers(key, node.keys[i])
 
             if (cmpResult <= 0)

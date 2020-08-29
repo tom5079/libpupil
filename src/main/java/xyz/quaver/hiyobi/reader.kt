@@ -16,32 +16,22 @@
 
 package xyz.quaver.hiyobi
 
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.builtins.list
-import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import xyz.quaver.Code
+import okhttp3.Request
+import xyz.quaver.*
 import xyz.quaver.hitomi.GalleryFiles
 import xyz.quaver.hitomi.GalleryInfo
 import xyz.quaver.hitomi.Reader
 import xyz.quaver.hitomi.protocol
-import xyz.quaver.json
-import xyz.quaver.proxy
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 const val hiyobi = "hiyobi.me"
 const val primary_img_domain = "cdn.hiyobi.me"
 const val user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36"
 
-var cookie: String = ""
-    get() {
-        if (field.isEmpty())
-            field  = renewCookie()
-
-        return field
-    }
+val cookie: String by lazy { renewCookie() }
 
 data class Images(
     val path: String,
@@ -51,48 +41,28 @@ data class Images(
 
 fun renewCookie() : String {
     val url = "https://$hiyobi/"
-
-    try {
-        with(URL(url).openConnection(proxy) as HttpsURLConnection) {
-            setRequestProperty("User-Agent", user_agent)
-            connectTimeout = 2000
-            connect()
-            return headerFields["Set-Cookie"]!![0]
-        }
-    } catch (e: Exception) {
-        return ""
-    }
+    
+    val request = Request.Builder()
+        .url(url)
+        .header("User-Agent", user_agent)
+        .build()
+    
+    return client.newCall(request).execute().use { it.header("Set-Cookie") }!!
 }
 
 fun getReader(galleryID: Int) : Reader {
     val data = "https://cdn.$hiyobi/data/json/$galleryID.json"
     val list = "https://cdn.$hiyobi/data/json/${galleryID}_list.json"
+    
+    val title = json.parseToJsonElement(URL(data).readText(hiyobiHeaderSetter))
+        .jsonObject["n"]!!.jsonPrimitive.content
 
-    val title = with(URL(data).openConnection(proxy) as HttpsURLConnection) {
-        setRequestProperty("User-Agent", user_agent)
-        setRequestProperty("Cookie", cookie)
-        connectTimeout = 1000
-        connect()
-
-        inputStream.bufferedReader().use { it.readText() }
-    }.let {
-        json.parseToJsonElement(it).jsonObject["n"]?.jsonPrimitive?.contentOrNull
-    }
-
-    val galleryFiles = json.decodeFromString(
-        ListSerializer(GalleryFiles.serializer()),
-        with(URL(list).openConnection(proxy) as HttpsURLConnection) {
-            setRequestProperty("User-Agent", user_agent)
-            setRequestProperty("Cookie", cookie)
-            connectTimeout = 1000
-            connect()
-
-            inputStream.bufferedReader().use { it.readText() }
-        }
-    )
+    val galleryFiles = json.decodeFromString<List<GalleryFiles>>(URL(list).readText(hiyobiHeaderSetter))
 
     return Reader(Code.HIYOBI, GalleryInfo(title = title, files = galleryFiles))
 }
+
+fun getReaderOrNull(galleryID: Int) = runCatching { getReader(galleryID) }.getOrNull()
 
 fun createImgList(galleryID: Int, reader: Reader, lowQuality: Boolean = false) =
     if (lowQuality)

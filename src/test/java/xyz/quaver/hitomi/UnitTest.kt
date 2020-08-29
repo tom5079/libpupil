@@ -18,19 +18,11 @@
 
 package xyz.quaver.hitomi
 
-import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.Assert.*
 import xyz.quaver.availableInHiyobi
 
 class UnitTest {
-    @Test
-    fun test() {
-        assertEquals(
-            "6/2d/c26014fc6153ef717932d85f4d26c75195560fb2ce1da60b431ef376501642d6",
-            fullPathFromHash("c26014fc6153ef717932d85f4d26c75195560fb2ce1da60b431ef376501642d6")
-        )
-    }
-
     @Test
     fun test_nozomi() {
         val nozomi = getGalleryIDsFromNozomi(null, "popular", "all")

@@ -42,6 +42,12 @@ data class GalleryFiles(
     val hasavif: Int = 0
 )
 
+/**
+ * Reader class contains information about individual images in each gallery
+ *
+ * @property[code] Code for site of origin
+ * @property[galleryInfo] Image information about Images
+ */
 @Serializable
 data class Reader(val code: Code, val galleryInfo: GalleryInfo)
 
@@ -49,3 +55,5 @@ data class Reader(val code: Code, val galleryInfo: GalleryInfo)
 fun getReader(galleryID: Int) : Reader {
    return Reader(Code.HITOMI, getGalleryInfo(galleryID))
 }
+
+fun getReaderOrNull(galleryID: Int) = runCatching { getReader(galleryID) }.getOrNull()

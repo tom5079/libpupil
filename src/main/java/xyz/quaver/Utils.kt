@@ -16,18 +16,50 @@
 
 package xyz.quaver
 
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
-import java.net.Proxy
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import xyz.quaver.hiyobi.cookie
+import xyz.quaver.hiyobi.user_agent
+import java.io.IOException
+import java.net.URL
 
-var proxy : Proxy = Proxy.NO_PROXY
+private var mutex = Mutex()
+private var clientInstance: OkHttpClient? = null
+val client
+    get() = clientInstance
+        ?: OkHttpClient().also { runBlocking { mutex.withLock {  
+            clientInstance = it    
+        } } }
 
-var json = Json {
+fun setClient(client: OkHttpClient) = runBlocking {
+    mutex.withLock {
+        clientInstance = client
+    }
+}
+
+/**
+ * kotlinx.serialization.json.Json object for global use  
+ * properties should not be changed
+ *
+ * @see [https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-core/kotlinx-serialization-core/kotlinx.serialization.json/-json/index.html]
+ */
+val json = Json {
     isLenient = true
     ignoreUnknownKeys = true
     allowSpecialFloatingPointValues = true
     useArrayPolymorphism = true
 }
 
+/**
+ * Check if gallery is available in [hiyobi](https://hiyobi.me)
+ *
+ * @param galleryID Gallery ID to be checked
+ * @return true if the gallery exists, false otherwise
+ */
 fun availableInHiyobi(galleryID: Int) : Boolean {
     return try {
         xyz.quaver.hiyobi.getReader(galleryID)
@@ -35,4 +67,29 @@ fun availableInHiyobi(galleryID: Int) : Boolean {
     } catch (e: Exception) {
         false
     }
+}
+
+typealias HeaderSetter = (Request.Builder) -> Request.Builder
+fun URL.readText(settings: HeaderSetter? = null): String {
+    val request = Request.Builder()
+        .url(this).let { 
+            settings?.invoke(it) ?: it
+        }.build()
+    
+    return client.newCall(request).execute().body()?.use { it.string() } ?: throw IOException()
+}
+
+fun URL.readBytes(settings: HeaderSetter? = null): ByteArray {
+    val request = Request.Builder()
+        .url(this).let {
+            settings?.invoke(it) ?: it
+        }.build()
+
+    return client.newCall(request).execute().body()?.use { it.bytes() } ?: throw IOException()
+}
+
+val hiyobiHeaderSetter: HeaderSetter = {
+    it
+        .header("User-Agent", user_agent)
+        .header("Cookie", cookie)
 }

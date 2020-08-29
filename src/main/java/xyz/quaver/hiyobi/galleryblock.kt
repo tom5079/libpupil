@@ -20,30 +20,21 @@ import kotlinx.serialization.json.*
 import xyz.quaver.Code
 import xyz.quaver.hitomi.GalleryBlock
 import xyz.quaver.hitomi.protocol
+import xyz.quaver.hiyobiHeaderSetter
 import xyz.quaver.json
-import xyz.quaver.proxy
+import xyz.quaver.readText
 import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
-fun getGalleryBlock(galleryID: Int) : GalleryBlock? {
+fun getGalleryBlock(galleryID: Int) : GalleryBlock {
     val url = "$protocol//api.$hiyobi/gallery/$galleryID"
-
-    val galleryBlock = with (URL(url).openConnection(proxy) as HttpsURLConnection) {
-        setRequestProperty("User-Agent", user_agent)
-        setRequestProperty("Cookie", cookie)
-        connectTimeout = 1000
-        connect()
-
-        inputStream.bufferedReader().use { it.readText() }
-    }.let {
-        json.parseToJsonElement(it).jsonObject
-    }
+    
+    val galleryBlock = json.parseToJsonElement(URL(url).readText(hiyobiHeaderSetter)).jsonObject
 
     val galleryUrl = "reader/$galleryID"
 
     val thumbnails = listOf("$protocol//cdn.$hiyobi/tn/$galleryID.jpg")
 
-    val title = galleryBlock["title"]?.jsonPrimitive?.contentOrNull ?: ""
+    val title = galleryBlock["title"]!!.jsonPrimitive.content
     val artists = galleryBlock["artists"]?.jsonArray?.mapNotNull {
         it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
     } ?: listOf()
@@ -66,3 +57,5 @@ fun getGalleryBlock(galleryID: Int) : GalleryBlock? {
 
     return GalleryBlock(Code.HIYOBI, galleryID, galleryUrl, thumbnails, title, artists, series, type, language, relatedTags)
 }
+
+fun getGalleryBlockOrNull(galleryID: Int) = runCatching { getGalleryBlock(galleryID) }.getOrNull()
