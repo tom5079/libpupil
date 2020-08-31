@@ -60,8 +60,8 @@ fun getGallery(galleryID: Int) : Gallery {
     val type = doc.selectFirst(".gallery-info a[href~=^/type/]").text()
 
     val language = {
-        val href = doc.select(".gallery-info a[href~=^/index-.+-1.html]").attr("href")
-        href.slice(7 until href.indexOf("-1"))
+        val href = doc.select(".gallery-info a[href~=^/index.+\\.html\$]").attr("href")
+        href.slice(7 until href.indexOf(".html"))
     }.invoke()
 
     val series = doc.select(".gallery-info a[href~=^/series/]").map { it.text() }
