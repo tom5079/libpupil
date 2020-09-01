@@ -91,8 +91,8 @@ fun getGalleryBlock(galleryID: Int) : GalleryBlock {
     val type = doc.selectFirst("a[href~=^/type/]").text()
 
     val language = {
-        val href = doc.select("a[href~=^/index-.+-1.html]").attr("href")
-        href.slice(7 until href.indexOf("-1"))
+        val href = doc.select("a[href~=^/index.+\\.html\$]").attr("href")
+        href.slice(7 until href.indexOf(".html"))
     }.invoke()
 
     val relatedTags = doc.select(".relatedtags a").map {
