@@ -59,7 +59,7 @@ fun getReader(galleryID: Int) : Reader {
 
     val galleryFiles = json.decodeFromString<List<GalleryFiles>>(URL(list).readText(hiyobiHeaderSetter))
 
-    return Reader(Code.HIYOBI, GalleryInfo(title = title, files = galleryFiles))
+    return Reader(Code.HIYOBI, GalleryInfo(id = galleryID, title = title, files = galleryFiles))
 }
 
 fun getReaderOrNull(galleryID: Int) = runCatching { getReader(galleryID) }.getOrNull()
