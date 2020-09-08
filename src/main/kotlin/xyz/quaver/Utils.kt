@@ -22,8 +22,6 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import xyz.quaver.hiyobi.cookie
-import xyz.quaver.hiyobi.user_agent
 import java.io.IOException
 import java.net.URL
 
@@ -86,10 +84,4 @@ fun URL.readBytes(settings: HeaderSetter? = null): ByteArray {
         }.build()
 
     return client.newCall(request).execute().body()?.use { it.bytes() } ?: throw IOException()
-}
-
-val hiyobiHeaderSetter: HeaderSetter = {
-    it
-        .header("User-Agent", user_agent)
-        .header("Cookie", cookie)
 }

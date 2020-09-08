@@ -20,7 +20,6 @@ import kotlinx.serialization.json.*
 import xyz.quaver.Code
 import xyz.quaver.hitomi.GalleryBlock
 import xyz.quaver.hitomi.protocol
-import xyz.quaver.hiyobiHeaderSetter
 import xyz.quaver.json
 import xyz.quaver.readText
 import java.net.URL
@@ -28,7 +27,7 @@ import java.net.URL
 fun getGalleryBlock(galleryID: Int) : GalleryBlock {
     val url = "$protocol//api.$hiyobi/gallery/$galleryID"
     
-    val galleryBlock = json.parseToJsonElement(URL(url).readText(hiyobiHeaderSetter)).jsonObject
+    val galleryBlock = json.parseToJsonElement(URL(url).readText()).jsonObject
 
     val galleryUrl = "reader/$galleryID"
 
