@@ -29,9 +29,6 @@ import java.net.URL
 
 const val hiyobi = "hiyobi.me"
 const val primary_img_domain = "cdn.hiyobi.me"
-const val user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36"
-
-val cookie: String by lazy { renewCookie() }
 
 data class Images(
     val path: String,
@@ -39,25 +36,14 @@ data class Images(
     val name: String
 )
 
-fun renewCookie() : String {
-    val url = "https://$hiyobi/"
-    
-    val request = Request.Builder()
-        .url(url)
-        .header("User-Agent", user_agent)
-        .build()
-    
-    return client.newCall(request).execute().use { it.header("Set-Cookie") }!!
-}
-
 fun getReader(galleryID: Int) : Reader {
     val data = "https://cdn.$hiyobi/data/json/$galleryID.json"
     val list = "https://cdn.$hiyobi/data/json/${galleryID}_list.json"
     
-    val title = json.parseToJsonElement(URL(data).readText(hiyobiHeaderSetter))
+    val title = json.parseToJsonElement(URL(data).readText())
         .jsonObject["n"]!!.jsonPrimitive.content
 
-    val galleryFiles = json.decodeFromString<List<GalleryFiles>>(URL(list).readText(hiyobiHeaderSetter))
+    val galleryFiles = json.decodeFromString<List<GalleryFiles>>(URL(list).readText())
 
     return Reader(Code.HIYOBI, GalleryInfo(id = galleryID, title = title, files = galleryFiles))
 }
