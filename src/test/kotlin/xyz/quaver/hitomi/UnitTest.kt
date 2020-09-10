@@ -19,7 +19,6 @@
 package xyz.quaver.hitomi
 
 import org.junit.Test
-import org.junit.Assert.*
 import xyz.quaver.availableInHiyobi
 
 class UnitTest {
@@ -107,5 +106,11 @@ class UnitTest {
         val galleryBlock = xyz.quaver.hiyobi.getGalleryBlock(10000027)
 
         print(galleryBlock)
+    }
+
+    @Test
+    fun test_doSearch_extreme() {
+        val query = "-tag:sample -female:blood -female:ryona -male:blood -male:ryona -female:crotch_tatoo -male:urethea_insertion -female:living_clothes -male:tentacles -female:slave -female:gag -male:gag -female:wooden_horse -male:exhibitionism -male:miniguy -female:mind_break -male:mind_break -male:unbirth -tag:scanmark -tag:no_penetration -tag:nudity_only -female:enema -female:brain_fuck -female:navel_fuck -tag:novel -tag:mosaic_censorship -tag:webtoon -male:rape -female:rape -female:yuri -male:anal -female:anal -female:futanari -female:huge_breasts -female:big_areolae -male:torture -male:stuck_in_wall -female:stuck_in_wall -female:torture -female:birth -female:pregnant -female:drugs -female:bdsm -female:cbt -male:dark_skin -male:insect -female:insect -male:vore -female:vore -female:vomit -female:urination -female:urethea_insertion -tag:mmf_threesome -female:sex_toys -female:double_penetraion -female:egg -female:prolapse -male:smell -male:bestiality -female:beastiality -female:big_ass -female:milf -female:mother -male:dilf -male:netorare -female:netorare -female:cosplaying -female:filming -female:armpit_sex -female:armpit_licking -female:tickling -female:lactation -male:skinsuit -female:skinsuit -male:bbm -female:prostitution -female:double_penetration -female:females_only -male:males_only -female:tentacles -female:tentacles -female:stomach_deformation -female:hairy_armpits -female:gigantess -female:large_insertions -female:mind_control -male:orc -female:dark_skin -male:yandere -female:yandere -female:bbm -female:scat -female:toddlercon -female:bbw -female:hairy -male:cuntboy -male:lactation -male:drugs -female:body_modification -female:monoeye -female:chikan -female:long_tongue -female:harness -female:fisting -female:glory_hole -female:latex -male:latex -female:unbirth -female:giantess -female:sole_dickgirl -female:robot -female:joint -female:machine -tag:artbook -male:cbt -female:farting -male:farting -male:midget -female:midget -female:exhibitionism  -male:monster -female:big_nipple -female:big_cllt -female:gyaru -female:piercing -female:necrophilia -female:snuff -female:smell -male:cheating -female:cheating -male:snuff"
+        print(doSearch(query).size)
     }
 }
