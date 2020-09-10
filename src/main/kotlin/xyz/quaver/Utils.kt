@@ -83,5 +83,5 @@ fun URL.readBytes(settings: HeaderSetter? = null): ByteArray {
             settings?.invoke(it) ?: it
         }.build()
 
-    return client.newCall(request).execute().body()?.use { it.bytes() } ?: throw IOException()
+    return client.newCall(request).execute().also { if (it.code() != 200) throw IOException() }.body()?.use { it.bytes() } ?: throw IOException()
 }

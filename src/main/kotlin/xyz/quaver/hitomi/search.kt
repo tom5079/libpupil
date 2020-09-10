@@ -219,6 +219,8 @@ fun getNodeAtAddress(field: String, address: Long) : Node? {
     val url =
             when(field) {
                 "galleries" -> "$protocol//$domain/$galleries_index_dir/galleries.$galleries_index_version.index"
+                "languages" -> "$protocol//$domain/$galleries_index_dir/languages.$galleries_index_version.index"
+                "nozomiurl" -> "$protocol//$domain/$galleries_index_dir/nozomiurl.$galleries_index_version.index"
                 else -> "$protocol//$domain/$index_dir/$field.$tag_index_version.index"
             }
 
