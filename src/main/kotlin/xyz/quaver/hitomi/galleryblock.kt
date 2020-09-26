@@ -92,7 +92,7 @@ fun getGalleryBlock(galleryID: Int) : GalleryBlock {
 
     val language = {
         val href = doc.select("a[href~=^/index.+\\.html\$]").attr("href")
-        href.slice(7 until href.indexOf(".html"))
+        Regex("""index-([^-]+)(-.+)?\.html""").find(href)?.groupValues?.getOrNull(1) ?: ""
     }.invoke()
 
     val relatedTags = doc.select(".relatedtags a").map {

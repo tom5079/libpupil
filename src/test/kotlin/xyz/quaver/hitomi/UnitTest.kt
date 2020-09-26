@@ -52,14 +52,14 @@ class UnitTest {
 
     @Test
     fun test_getBlock() {
-        val galleryBlock = getGalleryBlock(1428250)
+        val galleryBlock = getGalleryBlock(1262768)
 
         print(galleryBlock)
     }
 
     @Test
     fun test_getGallery() {
-        val gallery = getGallery(1722108)
+        val gallery = getGallery(1262768)
 
         print(gallery)
     }
