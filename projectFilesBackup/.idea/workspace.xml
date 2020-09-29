@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="21fb51da-ba19-4a2b-86f4-1538704c28df" name="Default Changelist" comment="Gallery language not properly parsed on some galleries fixed">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/xyz/quaver/hiyobi/search.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/kotlinx-serialization-core-jvm-1.0.0-RC.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/xyz/quaver/hitomi/results.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/xyz/quaver/hitomi/results.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="libpupil" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="libpupil" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="libpupil" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="publishing" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="libpupil" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="verification" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1gPWEPeY0oSXD6VZnos9IL0ITbX" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.language.Kotlin" />
+  </component>
+  <component name="RunManager" selected="Gradle.libpupil [bintrayUpload]">
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTest.a" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;xyz.quaver.hitomi.UnitTest.a&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="UnitTest.test_doSearch_extreme" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;xyz.quaver.hitomi.UnitTest.test_doSearch_extreme&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="libpupil [bintrayUpload]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bintrayUpload" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="UnitTest.test_getBlock" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="libpupil" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="xyz.quaver.hitomi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="xyz.quaver.hitomi" />
+      <option name="MAIN_CLASS_NAME" value="xyz.quaver.hitomi.UnitTest" />
+      <option name="METHOD_NAME" value="test_getBlock" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTest.test_getGallery" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="libpupil" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="xyz.quaver.hitomi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="xyz.quaver.hitomi" />
+      <option name="MAIN_CLASS_NAME" value="xyz.quaver.hitomi.UnitTest" />
+      <option name="METHOD_NAME" value="test_getGallery" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.libpupil [bintrayUpload]" />
+        <item itemvalue="Gradle.UnitTest.test_doSearch_extreme" />
+        <item itemvalue="Gradle.UnitTest.a" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="21fb51da-ba19-4a2b-86f4-1538704c28df" name="Default Changelist" comment="" />
+      <created>1598016595806</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1598016595806</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Migrated to OkHTTP">
+      <created>1598688791287</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1598688791287</updated>
+    </task>
+    <task id="LOCAL-00002" summary="getGallery() language fix">
+      <created>1598868688883</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1598868688883</updated>
+    </task>
+    <task id="LOCAL-00003" summary="getGalleryBlock() language fix&#10;Rebuilt using JDK8">
+      <created>1598936829721</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1598936829721</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Fixed HIYOBI Reader not containing galleryID">
+      <created>1599471902237</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1599471902237</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Removed hiyobi header settings as it is not necessary anymore">
+      <created>1599561225109</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1599561225109</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Bug fix">
+      <created>1599744851026</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1599744851026</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Gallery language not properly parsed on some galleries fixed">
+      <created>1601082398649</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1601082398649</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Migrated to OkHTTP" />
+    <MESSAGE value="getGallery() language fix" />
+    <MESSAGE value="getGalleryBlock() language fix&#10;Rebuilt using JDK8" />
+    <MESSAGE value="Fixed HIYOBI Reader not containing galleryID" />
+    <MESSAGE value="Removed hiyobi header settings as it is not necessary anymore" />
+    <MESSAGE value="Bug fix" />
+    <MESSAGE value="Gallery language not properly parsed on some galleries fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Gallery language not properly parsed on some galleries fixed" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="872" y="340" key="#Plugins" timestamp="1599560870200">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="872" y="340" key="#Plugins/0.0.2560.1400@0.0.2560.1400" timestamp="1599560870200" />
+    <state x="760" y="274" key="#Project_Structure" timestamp="1599489482952">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="760" y="274" key="#Project_Structure/0.0.2560.1400@0.0.2560.1400" timestamp="1599489482952" />
+    <state x="1009" y="489" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1599743313834">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1009" y="489" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599743313834" />
+    <state x="968" y="622" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1598929347122">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="968" y="622" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1598929347122" />
+    <state x="702" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1598614324571">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="702" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1598614324571" />
+    <state x="1026" y="530" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1598615821419">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1026" y="530" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.2560.1400@0.0.2560.1400" timestamp="1598615821419" />
+    <state x="-1311" y="462" key="CommitChangelistDialog2" timestamp="1601082473612">
+      <screen x="-1920" y="349" width="1920" height="1040" />
+    </state>
+    <state x="-1311" y="462" key="CommitChangelistDialog2/0.0.2560.1400/-1920.349.1920.1040@-1920.349.1920.1040" timestamp="1601082473612" />
+    <state x="-1828" y="441" width="1736" height="856" key="DiffContextDialog" timestamp="1601081811900">
+      <screen x="-1920" y="349" width="1920" height="1040" />
+    </state>
+    <state x="-1828" y="441" width="1736" height="856" key="DiffContextDialog/0.0.2560.1400/-1920.349.1920.1040@-1920.349.1920.1040" timestamp="1601081811900" />
+    <state x="1060" y="454" key="FileChooserDialogImpl" timestamp="1601120630574">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1060" y="454" key="FileChooserDialogImpl/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1601112649350" />
+    <state x="1060" y="454" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1601120630574" />
+    <state width="2517" height="281" key="GridCell.Tab.0.bottom" timestamp="1601088768947">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.2560.1400/-1920.349.1920.1040@-1920.349.1920.1040" timestamp="1601083867221" />
+    <state width="2517" height="399" key="GridCell.Tab.0.bottom/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599744854672" />
+    <state width="2517" height="281" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1601088768947" />
+    <state width="2517" height="281" key="GridCell.Tab.0.center" timestamp="1601088768947">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.2560.1400/-1920.349.1920.1040@-1920.349.1920.1040" timestamp="1601083867221" />
+    <state width="2517" height="399" key="GridCell.Tab.0.center/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599744854671" />
+    <state width="2517" height="281" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1601088768947" />
+    <state width="2517" height="281" key="GridCell.Tab.0.left" timestamp="1601088768947">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.2560.1400/-1920.349.1920.1040@-1920.349.1920.1040" timestamp="1601083867220" />
+    <state width="2517" height="399" key="GridCell.Tab.0.left/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599744854671" />
+    <state width="2517" height="281" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1601088768947" />
+    <state width="2517" height="281" key="GridCell.Tab.0.right" timestamp="1601088768947">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.2560.1400/-1920.349.1920.1040@-1920.349.1920.1040" timestamp="1601083867221" />
+    <state width="2517" height="399" key="GridCell.Tab.0.right/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599744854671" />
+    <state width="2517" height="281" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1601088768947" />
+    <state width="2517" height="492" key="GridCell.Tab.1.bottom" timestamp="1599745326936">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="492" key="GridCell.Tab.1.bottom/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599744503559" />
+    <state width="2517" height="492" key="GridCell.Tab.1.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1599745326936" />
+    <state width="2517" height="492" key="GridCell.Tab.1.center" timestamp="1599745326935">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="492" key="GridCell.Tab.1.center/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599744503559" />
+    <state width="2517" height="492" key="GridCell.Tab.1.center/0.0.2560.1400@0.0.2560.1400" timestamp="1599745326935" />
+    <state width="2517" height="492" key="GridCell.Tab.1.left" timestamp="1599745326935">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="492" key="GridCell.Tab.1.left/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599744503559" />
+    <state width="2517" height="492" key="GridCell.Tab.1.left/0.0.2560.1400@0.0.2560.1400" timestamp="1599745326935" />
+    <state width="2517" height="492" key="GridCell.Tab.1.right" timestamp="1599745326935">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2517" height="492" key="GridCell.Tab.1.right/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599744503559" />
+    <state width="2517" height="492" key="GridCell.Tab.1.right/0.0.2560.1400@0.0.2560.1400" timestamp="1599745326935" />
+    <state x="781" y="344" key="SettingsEditor" timestamp="1599489678631">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="781" y="344" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1599489678631" />
+    <state x="872" y="432" key="Vcs.Push.Dialog.v2" timestamp="1599744870123">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="-1266" y="670" key="Vcs.Push.Dialog.v2/0.0.2560.1400/-1920.349.1920.1040@-1920.349.1920.1040" timestamp="1598688892556" />
+    <state x="872" y="432" key="Vcs.Push.Dialog.v2/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599744870123" />
+    <state x="872" y="432" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1599561230566" />
+    <state x="846" y="428" width="867" height="642" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1599744384914">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="846" y="428" width="867" height="642" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599744384914" />
+    <state x="988" y="298" width="584" height="804" key="find.popup" timestamp="1599743884192">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="988" y="298" width="584" height="804" key="find.popup/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599743884192" />
+    <state x="988" y="298" width="584" height="804" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1599471030198" />
+    <state x="871" y="299" width="836" height="802" key="new project wizard" timestamp="1598263380856">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="871" y="299" width="836" height="802" key="new project wizard/0.0.2560.1400@0.0.2560.1400" timestamp="1598263380856" />
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup" timestamp="1599744021827">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="943" y="315" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400/-1920.349.1920.1040@0.0.2560.1400" timestamp="1599744021827" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint type="java-exception">
+          <properties class="java.nio.BufferUnderflowException" package="java.nio" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Remote">
+        <watch expression="bytes" language="kotlin" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

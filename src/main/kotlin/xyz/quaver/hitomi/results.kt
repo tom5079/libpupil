@@ -44,13 +44,17 @@ fun doSearch(query: String, sortByPopularity: Boolean = false) : List<Int> {
 
     val positiveResults = positiveTerms.map {
         CoroutineScope(Dispatchers.IO).async {
-            getGalleryIDsForQuery(it)
+            kotlin.runCatching {
+                getGalleryIDsForQuery(it)
+            }.getOrElse { emptyList() }
         }
     }
 
     val negativeResults = negativeTerms.map {
         CoroutineScope(Dispatchers.IO).async {
-            getGalleryIDsForQuery(it)
+            kotlin.runCatching {
+                getGalleryIDsForQuery(it)
+            }.getOrElse { emptyList() }
         }
     }
 
