@@ -77,9 +77,9 @@ class UnitTest {
 
     @Test
     fun test_getImages() {
-        val reader = getReader(1702001)
+        val reader = getReader(9)
 
-        print(urlFromUrlFromHash(1702001, reader.galleryInfo.files[15], "webp"))
+        print(urlFromUrlFromHash(9, reader.galleryInfo.files[2], "webp"))
     }
 
     @Test

@@ -16,80 +16,112 @@
 
 package xyz.quaver.hitomi
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
-import java.util.*
+import kotlinx.coroutines.*
 
-fun doSearch(query: String, sortByPopularity: Boolean = false) : List<Int> {
-    val terms = query
-        .trim()
-        .replace(Regex("""^\?"""), "")
-        .toLowerCase(Locale.US)
-        .split(Regex("\\s+"))
-        .map {
-            it.replace('_', ' ')
+private val operators = listOf(
+    "and",
+    "or"
+)
+
+fun parseQuery(query: String): List<String> {
+    val stack = mutableListOf<String>()
+    val operatorStack = mutableListOf<String>()
+
+    query
+        .toLowerCase()
+        .replace(Regex("""([\(\)])""")) {
+            ' ' + it.groupValues[0] + ' '
         }
-
-    val positiveTerms = LinkedList<String>()
-    val negativeTerms = LinkedList<String>()
-
-    for (term in terms) {
-        if (term.matches(Regex("^-.+")))
-            negativeTerms.push(term.replace(Regex("^-"), ""))
-        else
-            positiveTerms.push(term)
-    }
-
-    val positiveResults = positiveTerms.map {
-        CoroutineScope(Dispatchers.IO).async {
-            kotlin.runCatching {
-                getGalleryIDsForQuery(it)
-            }.getOrElse { emptyList() }
-        }
-    }
-
-    val negativeResults = negativeTerms.map {
-        CoroutineScope(Dispatchers.IO).async {
-            kotlin.runCatching {
-                getGalleryIDsForQuery(it)
-            }.getOrElse { emptyList() }
-        }
-    }
-
-    var results = when {
-        sortByPopularity -> getGalleryIDsFromNozomi(null, "popular", "all")
-        positiveTerms.isEmpty() -> getGalleryIDsFromNozomi(null, "index", "all")
-        else -> listOf()
-    }
-
-    runBlocking {
-        @Synchronized fun filterPositive(newResults: List<Int>) {
-            results = when {
-                results.isEmpty() -> newResults
-                else -> newResults.sorted().let { sorted ->
-                    results.filter { sorted.binarySearch(it) >= 0 }
+        .split(' ')
+        .filter { it.isNotBlank() }
+        .let { queries ->
+            mutableListOf<String>().apply {
+                queries.forEachIndexed { index, s ->
+                    this.add(s)
+                    if (
+                        s != "(" &&
+                        (s == ")" && queries.getOrNull(index+1).let { it != null && it !in operators } ||
+                        s !in operators && queries.getOrNull(index+1).let { it != null && it !in operators +")" })
+                    )
+                        this.add("and")
+                }
+            }
+        }.forEach {
+            when (it) {
+                in operators -> {
+                    while (operatorStack.isNotEmpty() && operatorStack.last() != "(" && operators.indexOf(operatorStack.last()) >= operators.indexOf(it))
+                        stack.add(operatorStack.removeLast())
+                    operatorStack.add(it)
+                }
+                "(" -> {
+                    operatorStack.add(it)
+                }
+                ")" -> {
+                    while (operatorStack.last() != "(") stack.add(operatorStack.removeLast())
+                    operatorStack.removeLast()
+                }
+                else -> {
+                    stack.add(it)
                 }
             }
         }
 
-        @Synchronized fun filterNegative(newResults: List<Int>) {
-            results = newResults.sorted().let { sorted ->
-                results.filter { sorted.binarySearch(it) < 0 }
+    while (operatorStack.isNotEmpty())
+        stack.add(operatorStack.removeLast())
+
+    return stack
+}
+
+fun doSearch(query: String, sortByPopularity: Boolean = false) : List<Int> {
+    val terms = parseQuery(query)
+
+    val results = terms.filter { it !in operators }.map {
+        val term = if (it.startsWith('-')) it.drop(1) else it
+
+        Pair(term, CoroutineScope(Dispatchers.IO).async {
+            kotlin.runCatching {
+                getGalleryIDsForQuery(term).sorted()
+            }.getOrElse { emptyList() }
+        })
+    }.toMap()
+
+    val all =
+        CoroutineScope(Dispatchers.IO).async {
+            kotlin.runCatching {
+                getGalleryIDsFromNozomi(null, if (sortByPopularity) "popular" else "index", "all").sorted()
+            }.getOrElse { emptyList() }
+        }
+
+    return runBlocking {
+        val result = mutableListOf<List<Int>>()
+
+        terms.forEach {
+            when (it) {
+                in operators -> {
+                    val a = result.removeLast()
+                    val b = result.removeLast()
+
+                    when (it) {
+                        "and" ->
+                            result.add(a.filter { b.binarySearch(it) > 0 })
+                        "or" ->
+                            result.add((a + b).distinct().sorted())
+                    }
+                }
+                else -> {
+                    result.add(
+                        if (it.startsWith('-')) {
+                            results[it.drop(1)]!!.await().let { r ->
+                                all.await().filterNot { r.binarySearch(it) > 0 }
+                            }
+                        } else {
+                            results[it]!!.await()
+                        }
+                    )
+                }
             }
         }
 
-        //positive results
-        positiveResults.forEach {
-            filterPositive(it.await())
-        }
-
-        //negative results
-        negativeResults.forEach {
-            filterNegative(it.await())
-        }
+        all.await().filter { result.last().binarySearch(it) > 0 }.reversed()
     }
-
-    return results
 }
