@@ -72,28 +72,28 @@ fun parseQuery(query: String): List<String> {
     return stack
 }
 
-fun doSearch(query: String, sortByPopularity: Boolean = false) : List<Int> {
+fun doSearch(query: String, sortByPopularity: Boolean = false) : Set<Int> {
     val terms = parseQuery(query)
+
+    val all =
+        CoroutineScope(Dispatchers.IO).async {
+            kotlin.runCatching {
+                getGalleryIDsFromNozomi(null, if (sortByPopularity) "popular" else "index", "all")
+            }.getOrElse { emptySet() }
+        }
 
     val results = terms.filter { it !in operators }.map {
         val term = if (it.startsWith('-')) it.drop(1) else it
 
         Pair(term, CoroutineScope(Dispatchers.IO).async {
             kotlin.runCatching {
-                getGalleryIDsForQuery(term).sorted()
-            }.getOrElse { emptyList() }
+                getGalleryIDsForQuery(term)
+            }.getOrElse { emptySet() }
         })
     }.toMap()
 
-    val all =
-        CoroutineScope(Dispatchers.IO).async {
-            kotlin.runCatching {
-                getGalleryIDsFromNozomi(null, if (sortByPopularity) "popular" else "index", "all").sorted()
-            }.getOrElse { emptyList() }
-        }
-
     return runBlocking {
-        val result = mutableListOf<List<Int>>()
+        val result = mutableListOf<Set<Int>>()
 
         terms.forEach {
             when (it) {
@@ -103,16 +103,16 @@ fun doSearch(query: String, sortByPopularity: Boolean = false) : List<Int> {
 
                     when (it) {
                         "and" ->
-                            result.add(a.filter { b.binarySearch(it) > 0 })
+                            result.add(if (a.size < b.size) a intersect b else b intersect a)
                         "or" ->
-                            result.add((a + b).distinct().sorted())
+                            result.add(if (a.size < b.size) a union b else b union a)
                     }
                 }
                 else -> {
                     result.add(
                         if (it.startsWith('-')) {
                             results[it.drop(1)]!!.await().let { r ->
-                                all.await().filterNot { r.binarySearch(it) > 0 }
+                                all.await() subtract r
                             }
                         } else {
                             results[it]!!.await()
@@ -122,6 +122,6 @@ fun doSearch(query: String, sortByPopularity: Boolean = false) : List<Int> {
             }
         }
 
-        all.await().filter { result.last().binarySearch(it) > 0 }.reversed()
+        all.await() intersect result.last()
     }
 }

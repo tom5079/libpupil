@@ -55,7 +55,7 @@ fun getIndexVersion(name: String) =
         URL("$protocol//$domain/$name/version?_=${System.currentTimeMillis()}").readText()
 
 //search.js
-fun getGalleryIDsForQuery(query: String) : List<Int> {
+fun getGalleryIDsForQuery(query: String) : Set<Int> {
     query.replace("_", " ").let {
         if (it.indexOf(':') > -1) {
             val sides = it.split(":")
@@ -82,14 +82,14 @@ fun getGalleryIDsForQuery(query: String) : List<Int> {
         val key = hashTerm(it)
         val field = "galleries"
 
-        val node = getNodeAtAddress(field, 0) ?: return emptyList()
+        val node = getNodeAtAddress(field, 0) ?: return emptySet()
 
         val data = bSearch(field, key, node)
 
         if (data != null)
             return getGalleryIDsFromData(data)
 
-        return emptyList()
+        return emptySet()
     }
 }
 
@@ -161,7 +161,7 @@ fun getSuggestionsFromData(field: String, data: Pair<Long, Int>) : List<Suggesti
     return suggestions
 }
 
-fun getGalleryIDsFromNozomi(area: String?, tag: String, language: String) : List<Int> {
+fun getGalleryIDsFromNozomi(area: String?, tag: String, language: String) : Set<Int> {
     val nozomiAddress =
             when(area) {
                 null -> "$protocol//$domain/$compressed_nozomi_prefix/$tag-$language$nozomiextension"
@@ -171,10 +171,10 @@ fun getGalleryIDsFromNozomi(area: String?, tag: String, language: String) : List
     val bytes = try {
         URL(nozomiAddress).readBytes()
     } catch (e: Exception) {
-        return emptyList()
+        return emptySet()
     }
 
-    val nozomi = mutableListOf<Int>()
+    val nozomi = mutableSetOf<Int>()
 
     val arrayBuffer = ByteBuffer
         .wrap(bytes)
@@ -186,7 +186,7 @@ fun getGalleryIDsFromNozomi(area: String?, tag: String, language: String) : List
     return nozomi
 }
 
-fun getGalleryIDsFromData(data: Pair<Long, Int>) : List<Int> {
+fun getGalleryIDsFromData(data: Pair<Long, Int>) : Set<Int> {
     val url = "$protocol//$domain/$galleries_index_dir/galleries.$galleries_index_version.data"
     val (offset, length) = data
     if (length > 100000000 || length <= 0)
@@ -194,7 +194,7 @@ fun getGalleryIDsFromData(data: Pair<Long, Int>) : List<Int> {
 
     val inbuf = getURLAtRange(url, offset.until(offset+length))
 
-    val galleryIDs = ArrayList<Int>()
+    val galleryIDs = mutableSetOf<Int>()
 
     val buffer = ByteBuffer
         .wrap(inbuf)
