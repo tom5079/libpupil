@@ -85,8 +85,8 @@ fun doSearch(query: String, sortByPopularity: Boolean = false) : Set<Int> {
     val results = terms.filter { it !in operators }.map {
         val term = if (it.startsWith('-')) it.drop(1) else it
 
-        Pair(term, CoroutineScope(Dispatchers.IO).async {
-            kotlin.runCatching {
+        Pair(term, {
+            runCatching {
                 getGalleryIDsForQuery(term)
             }.getOrElse { emptySet() }
         })
@@ -95,7 +95,8 @@ fun doSearch(query: String, sortByPopularity: Boolean = false) : Set<Int> {
     return runBlocking {
         val result = mutableListOf<Set<Int>>()
 
-        terms.forEach {
+        terms.forEachIndexed { index, it ->
+            println("PROCESSING $index")
             when (it) {
                 in operators -> {
                     val a = result.removeLast()
@@ -111,11 +112,11 @@ fun doSearch(query: String, sortByPopularity: Boolean = false) : Set<Int> {
                 else -> {
                     result.add(
                         if (it.startsWith('-')) {
-                            results[it.drop(1)]!!.await().let { r ->
+                            results[it.drop(1)]!!.invoke().let { r ->
                                 all.await() subtract r
                             }
                         } else {
-                            results[it]!!.await()
+                            results[it]!!.invoke()
                         }
                     )
                 }
