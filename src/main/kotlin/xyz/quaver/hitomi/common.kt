@@ -90,10 +90,14 @@ fun urlFromUrlFromHash(galleryID: Int, image: GalleryFiles, dir: String? = null,
     urlFromURL(urlFromHash(galleryID, image, dir, ext), base)
 
 fun imageUrlFromImage(galleryID: Int, image: GalleryFiles, noWebp: Boolean) : String {
-    val webp = if (image.hash != null && image.haswebp != 0 && !noWebp)
-        "webp"
-    else
-        null
-
-    return urlFromUrlFromHash(galleryID, image, webp)
+    return when {
+        noWebp ->
+            urlFromUrlFromHash(galleryID, image)
+      //image.hasavif != 0 ->
+      //    urlFromUrlFromHash(galleryID, image, "avif", null, "a")
+        image.haswebp != 0 ->
+            urlFromUrlFromHash(galleryID, image, "webp", null, "a")
+        else ->
+            urlFromUrlFromHash(galleryID, image)
+    }
 }

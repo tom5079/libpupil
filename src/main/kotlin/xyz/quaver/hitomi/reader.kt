@@ -39,7 +39,8 @@ data class GalleryFiles(
     val haswebp: Int = 0,
     val name: String,
     val height: Int,
-    val hasavif: Int = 0
+    val hasavif: Int = 0,
+    val hasavifsmalltn: Int = 0
 )
 
 /**
@@ -55,5 +56,3 @@ data class Reader(val code: Code, val galleryInfo: GalleryInfo)
 fun getReader(galleryID: Int) : Reader {
    return Reader(Code.HITOMI, getGalleryInfo(galleryID))
 }
-
-fun getReaderOrNull(galleryID: Int) = runCatching { getReader(galleryID) }.getOrNull()
