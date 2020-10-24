@@ -40,7 +40,7 @@ data class GalleryFiles(
     val name: String,
     val height: Int,
     val hasavif: Int = 0,
-    val hasavifsmalltn: Int = 0
+    val hasavifsmalltn: Int? = 0
 )
 
 /**

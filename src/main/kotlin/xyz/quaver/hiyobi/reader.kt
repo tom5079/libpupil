@@ -37,18 +37,14 @@ data class Images(
 )
 
 fun getReader(galleryID: Int) : Reader {
-    val data = "https://cdn.$hiyobi/data/json/$galleryID.json"
-    val list = "https://cdn.$hiyobi/data/json/${galleryID}_list.json"
+    val list = "https://cdn.$hiyobi/json/${galleryID}_list.json"
     
-    val title = json.parseToJsonElement(URL(data).readText())
-        .jsonObject["n"]!!.jsonPrimitive.content
+    val title = getGalleryBlock(galleryID).title
 
     val galleryFiles = json.decodeFromString<List<GalleryFiles>>(URL(list).readText())
 
     return Reader(Code.HIYOBI, GalleryInfo(id = galleryID, title = title, files = galleryFiles))
 }
-
-fun getReaderOrNull(galleryID: Int) = runCatching { getReader(galleryID) }.getOrNull()
 
 fun createImgList(galleryID: Int, reader: Reader, lowQuality: Boolean = false) =
     if (lowQuality)
