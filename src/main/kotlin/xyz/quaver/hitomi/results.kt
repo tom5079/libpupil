@@ -19,6 +19,7 @@ package xyz.quaver.hitomi
 import kotlinx.coroutines.*
 
 private val operators = listOf(
+    "not",
     "and",
     "or"
 )
@@ -37,7 +38,12 @@ fun parseQuery(query: String): List<String> {
         .let { queries ->
             mutableListOf<String>().apply {
                 queries.forEachIndexed { index, s ->
-                    this.add(s)
+                    if (s.startsWith('-')) {
+                        this.add("not")
+                        this.add(s.drop(1))
+                    } else
+                        this.add(s)
+
                     if (
                         s != "(" &&
                         (s == ")" && queries.getOrNull(index+1).let { it != null && it !in operators } ||
@@ -49,7 +55,7 @@ fun parseQuery(query: String): List<String> {
         }.forEach {
             when (it) {
                 in operators -> {
-                    while (operatorStack.isNotEmpty() && operatorStack.last() != "(" && operators.indexOf(operatorStack.last()) >= operators.indexOf(it))
+                    while (operatorStack.isNotEmpty() && operatorStack.last() != "(" && operators.indexOf(operatorStack.last()) <= operators.indexOf(it))
                         stack.add(operatorStack.removeLast())
                     operatorStack.add(it)
                 }
@@ -83,47 +89,42 @@ fun doSearch(query: String, sortByPopularity: Boolean = false) : Set<Int> {
         }
 
     val results = terms.filter { it !in operators }.map {
-        val term = if (it.startsWith('-')) it.drop(1) else it
-
-        Pair(term, CoroutineScope(Dispatchers.IO).async {
+        Pair(it, CoroutineScope(Dispatchers.IO).async {
             runCatching {
-                getGalleryIDsForQuery(term)
+                getGalleryIDsForQuery(it)
             }.getOrElse { emptySet() }
         })
     }.toMap().toMutableMap()
 
     return runBlocking {
         val result = mutableListOf<Set<Int>>()
-        val isNegative = mutableListOf<Boolean>()
 
         terms.forEach {
             when (it) {
                 in operators -> {
-                    val a = result.removeLast()
-                    val an = isNegative.removeLast()
-                    val b = result.removeLast()
-                    val bn = isNegative.removeLast()
 
                     when (it) {
-                        "and" ->
-                            result.add(
-                                when {
-                                    an and bn ->
-                                        all.await() subtract (if (a.size > b.size) a union b else b union a)
-                                    an xor bn ->
-                                        if (bn) a subtract b else b subtract a
-                                    else ->
-                                        if (a.size < b.size) a intersect b else b intersect a
-                                }
-                            )
-                        "or" ->
+                        "and" -> {
+                            val a = result.removeLast()
+                            val b = result.removeLast()
+
+                            result.add(if (a.size < b.size) a intersect b else b intersect a)
+                        }
+                        "or" -> {
+                            val a = result.removeLast()
+                            val b = result.removeLast()
+
                             result.add(if (a.size > b.size) a union b else b union a)
+                        }
+                        "not" -> {
+                            val a = result.removeLast()
+
+                            result.add(all.await() subtract a)
+                        }
                     }
-                    isNegative.add(false)
                 }
                 else -> {
-                    result.add(results.remove(it.let { if (it.startsWith('-')) it.drop(1) else it })?.await() ?: emptySet())
-                    isNegative.add(it.startsWith('-'))
+                    result.add(results.remove(it)?.await() ?: emptySet())
                 }
             }
         }

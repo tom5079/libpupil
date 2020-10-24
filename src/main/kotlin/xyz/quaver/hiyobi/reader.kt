@@ -16,6 +16,9 @@
 
 package xyz.quaver.hiyobi
 
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -25,6 +28,7 @@ import xyz.quaver.hitomi.GalleryFiles
 import xyz.quaver.hitomi.GalleryInfo
 import xyz.quaver.hitomi.Reader
 import xyz.quaver.hitomi.protocol
+import java.io.IOException
 import java.net.URL
 
 const val hiyobi = "hiyobi.me"
@@ -38,10 +42,10 @@ data class Images(
 
 fun getReader(galleryID: Int) : Reader {
     val list = "https://cdn.$hiyobi/json/${galleryID}_list.json"
-    
-    val title = getGalleryBlock(galleryID).title
 
     val galleryFiles = json.decodeFromString<List<GalleryFiles>>(URL(list).readText())
+
+    val title = getGalleryBlock(galleryID).title
 
     return Reader(Code.HIYOBI, GalleryInfo(id = galleryID, title = title, files = galleryFiles))
 }

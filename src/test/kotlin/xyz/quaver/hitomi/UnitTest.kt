@@ -84,7 +84,7 @@ class UnitTest {
 
     @Test
     fun test_hiyobi() {
-        val reader = xyz.quaver.hiyobi.getReader(1531795)
+        val reader = xyz.quaver.hiyobi.getReader(1762023)
 
         print(reader)
     }
@@ -120,6 +120,6 @@ class UnitTest {
 
     @Test
     fun test_parse() {
-        print(doSearch("female:gag (language:korean OR language:japanese OR language:english)").size)
+        print(doSearch("-male:yaoi -female:yaoi -female:loli").size)
     }
 }

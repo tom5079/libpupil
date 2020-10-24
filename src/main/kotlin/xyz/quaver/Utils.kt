@@ -74,7 +74,7 @@ fun URL.readText(settings: HeaderSetter? = null): String {
             settings?.invoke(it) ?: it
         }.build()
     
-    return client.newCall(request).execute().body()?.use { it.string() } ?: throw IOException()
+    return client.newCall(request).execute().also{ if (it.code() != 200) throw IOException() }.body()?.use { it.string() } ?: throw IOException()
 }
 
 fun URL.readBytes(settings: HeaderSetter? = null): ByteArray {
