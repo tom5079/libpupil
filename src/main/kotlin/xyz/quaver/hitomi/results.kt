@@ -85,40 +85,45 @@ fun doSearch(query: String, sortByPopularity: Boolean = false) : Set<Int> {
     val results = terms.filter { it !in operators }.map {
         val term = if (it.startsWith('-')) it.drop(1) else it
 
-        Pair(term, {
+        Pair(term, CoroutineScope(Dispatchers.IO).async {
             runCatching {
                 getGalleryIDsForQuery(term)
             }.getOrElse { emptySet() }
         })
-    }.toMap()
+    }.toMap().toMutableMap()
 
     return runBlocking {
         val result = mutableListOf<Set<Int>>()
+        val isNegative = mutableListOf<Boolean>()
 
-        terms.forEachIndexed { index, it ->
-            println("PROCESSING $index")
+        terms.forEach {
             when (it) {
                 in operators -> {
                     val a = result.removeLast()
+                    val an = isNegative.removeLast()
                     val b = result.removeLast()
+                    val bn = isNegative.removeLast()
 
                     when (it) {
                         "and" ->
-                            result.add(if (a.size < b.size) a intersect b else b intersect a)
+                            result.add(
+                                when {
+                                    an and bn ->
+                                        all.await() subtract (if (a.size > b.size) a union b else b union a)
+                                    an xor bn ->
+                                        if (bn) a subtract b else b subtract a
+                                    else ->
+                                        if (a.size < b.size) a intersect b else b intersect a
+                                }
+                            )
                         "or" ->
-                            result.add(if (a.size < b.size) a union b else b union a)
+                            result.add(if (a.size > b.size) a union b else b union a)
                     }
+                    isNegative.add(false)
                 }
                 else -> {
-                    result.add(
-                        if (it.startsWith('-')) {
-                            results[it.drop(1)]!!.invoke().let { r ->
-                                all.await() subtract r
-                            }
-                        } else {
-                            results[it]!!.invoke()
-                        }
-                    )
+                    result.add(results.remove(it.let { if (it.startsWith('-')) it.drop(1) else it })?.await() ?: emptySet())
+                    isNegative.add(it.startsWith('-'))
                 }
             }
         }
