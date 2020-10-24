@@ -16,119 +16,76 @@
 
 package xyz.quaver.hitomi
 
-import kotlinx.coroutines.*
-
-private val operators = listOf(
-    "not",
-    "and",
-    "or"
-)
-
-fun parseQuery(query: String): List<String> {
-    val stack = mutableListOf<String>()
-    val operatorStack = mutableListOf<String>()
-
-    query
-        .toLowerCase()
-        .replace(Regex("""([\(\)])""")) {
-            ' ' + it.groupValues[0] + ' '
-        }
-        .split(' ')
-        .filter { it.isNotBlank() }
-        .let { queries ->
-            mutableListOf<String>().apply {
-                queries.forEachIndexed { index, s ->
-                    if (s.startsWith('-')) {
-                        this.add("not")
-                        this.add(s.drop(1))
-                    } else
-                        this.add(s)
-
-                    if (
-                        s != "(" &&
-                        (s == ")" && queries.getOrNull(index+1).let { it != null && it !in operators } ||
-                        s !in operators && queries.getOrNull(index+1).let { it != null && it !in operators +")" })
-                    )
-                        this.add("and")
-                }
-            }
-        }.forEach {
-            when (it) {
-                in operators -> {
-                    while (operatorStack.isNotEmpty() && operatorStack.last() != "(" && operators.indexOf(operatorStack.last()) <= operators.indexOf(it))
-                        stack.add(operatorStack.removeLast())
-                    operatorStack.add(it)
-                }
-                "(" -> {
-                    operatorStack.add(it)
-                }
-                ")" -> {
-                    while (operatorStack.last() != "(") stack.add(operatorStack.removeLast())
-                    operatorStack.removeLast()
-                }
-                else -> {
-                    stack.add(it)
-                }
-            }
-        }
-
-    while (operatorStack.isNotEmpty())
-        stack.add(operatorStack.removeLast())
-
-    return stack
-}
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
+import java.util.*
 
 fun doSearch(query: String, sortByPopularity: Boolean = false) : Set<Int> {
-    val terms = parseQuery(query)
-
-    val all =
-        CoroutineScope(Dispatchers.IO).async {
-            kotlin.runCatching {
-                getGalleryIDsFromNozomi(null, if (sortByPopularity) "popular" else "index", "all")
-            }.getOrElse { emptySet() }
+    val terms = query
+        .trim()
+        .replace(Regex("""^\?"""), "")
+        .toLowerCase(Locale.US)
+        .split(Regex("\\s+"))
+        .map {
+            it.replace('_', ' ')
         }
 
-    val results = terms.filter { it !in operators }.map {
-        Pair(it, CoroutineScope(Dispatchers.IO).async {
-            runCatching {
+    val positiveTerms = LinkedList<String>()
+    val negativeTerms = LinkedList<String>()
+
+    for (term in terms) {
+        if (term.matches(Regex("^-.+")))
+            negativeTerms.push(term.replace(Regex("^-"), ""))
+        else
+            positiveTerms.push(term)
+    }
+
+    val positiveResults = positiveTerms.map {
+        CoroutineScope(Dispatchers.IO).async {
+            kotlin.runCatching {
                 getGalleryIDsForQuery(it)
             }.getOrElse { emptySet() }
-        })
-    }.toMap().toMutableMap()
+        }
+    }
 
-    return runBlocking {
-        val result = mutableListOf<Set<Int>>()
+    val negativeResults = negativeTerms.map {
+        CoroutineScope(Dispatchers.IO).async {
+            kotlin.runCatching {
+                getGalleryIDsForQuery(it)
+            }.getOrElse { emptySet() }
+        }
+    }
 
-        terms.forEach {
-            when (it) {
-                in operators -> {
+    var results = when {
+        sortByPopularity -> getGalleryIDsFromNozomi(null, "popular", "all")
+        positiveTerms.isEmpty() -> getGalleryIDsFromNozomi(null, "index", "all")
+        else -> emptySet()
+    }
 
-                    when (it) {
-                        "and" -> {
-                            val a = result.removeLast()
-                            val b = result.removeLast()
-
-                            result.add(if (a.size < b.size) a intersect b else b intersect a)
-                        }
-                        "or" -> {
-                            val a = result.removeLast()
-                            val b = result.removeLast()
-
-                            result.add(if (a.size > b.size) a union b else b union a)
-                        }
-                        "not" -> {
-                            val a = result.removeLast()
-
-                            result.add(all.await() subtract a)
-                        }
-                    }
-                }
-                else -> {
-                    result.add(results.remove(it)?.await() ?: emptySet())
-                }
+    runBlocking {
+        @Synchronized fun filterPositive(newResults: Set<Int>) {
+            results = when {
+                results.isEmpty() -> newResults
+                else -> results intersect newResults
             }
         }
 
-        all.await() intersect result.last()
+        @Synchronized fun filterNegative(newResults: Set<Int>) {
+            results = results subtract newResults
+        }
+
+        //positive results
+        positiveResults.forEach {
+            filterPositive(it.await())
+        }
+
+        //negative results
+        negativeResults.forEach {
+            filterNegative(it.await())
+        }
     }
+
+    return results
 }
