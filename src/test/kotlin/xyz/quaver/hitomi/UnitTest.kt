@@ -18,12 +18,8 @@
 
 package xyz.quaver.hitomi
 
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.junit.Test
 import xyz.quaver.availableInHiyobi
-import java.io.File
 
 class UnitTest {
     @Test
@@ -63,7 +59,7 @@ class UnitTest {
 
     @Test
     fun test_getGallery() {
-        val gallery = getGallery(1166620)
+        val gallery = getGallery(1771195)
 
         print(gallery)
     }
@@ -84,9 +80,9 @@ class UnitTest {
 
     @Test
     fun test_hiyobi() {
-        val reader = xyz.quaver.hiyobi.getReader(1762023)
+        val reader = xyz.quaver.hiyobi.getReader(369421)
 
-        print(reader)
+        print(reader.galleryInfo.files)
     }
 
     @Test
