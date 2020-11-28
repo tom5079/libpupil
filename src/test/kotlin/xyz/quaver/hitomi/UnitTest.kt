@@ -20,8 +20,19 @@ package xyz.quaver.hitomi
 
 import org.junit.Test
 import xyz.quaver.availableInHiyobi
+import xyz.quaver.hiyobi.search
 
 class UnitTest {
+    @Test
+    fun test_empty() {
+        print("".trim()
+            .replace(Regex("""^\?"""), "")
+            .toLowerCase()
+            .split(Regex("\\s+"))
+            .map {
+                it.replace('_', ' ')
+            })
+    }
     @Test
     fun test_nozomi() {
         val nozomi = getGalleryIDsFromNozomi(null, "popular", "all")
@@ -52,7 +63,7 @@ class UnitTest {
 
     @Test
     fun test_getBlock() {
-        val galleryBlock = getGalleryBlock(1262768)
+        val galleryBlock = getGalleryBlock(1785000)
 
         print(galleryBlock)
     }
@@ -73,16 +84,16 @@ class UnitTest {
 
     @Test
     fun test_getImages() {
-        val reader = getReader(9).galleryInfo.files.forEach {
+        val reader = getGalleryInfo(9).files.forEach {
             println(imageUrlFromImage(9, it, false))
         }
     }
 
     @Test
     fun test_hiyobi() {
-        val reader = xyz.quaver.hiyobi.getReader(369421)
+        val galleryInfo = xyz.quaver.hiyobi.getGalleryInfo("369421")
 
-        print(reader.galleryInfo.files)
+        print(galleryInfo.files)
     }
 
     @Test
@@ -96,14 +107,14 @@ class UnitTest {
 
     @Test
     fun test_availableInHiyobi() {
-        val result = availableInHiyobi(1272781)
+        val result = availableInHiyobi("V8Fdz2")
 
         print(result)
     }
 
     @Test
     fun test_hiyobi_galleryBlock() {
-        val galleryBlock = xyz.quaver.hiyobi.getGalleryBlock(10000027)
+        val galleryBlock = xyz.quaver.hiyobi.getGalleryBlock("V8Fdz2")
 
         print(galleryBlock)
     }
@@ -117,5 +128,10 @@ class UnitTest {
     @Test
     fun test_parse() {
         print(doSearch("-male:yaoi -female:yaoi -female:loli").size)
+    }
+
+    @Test
+    fun test_hiyobi_search() {
+        print(search("female:loli", 0 .. 50))
     }
 }

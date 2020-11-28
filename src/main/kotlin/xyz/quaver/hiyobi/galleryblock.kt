@@ -16,22 +16,33 @@
 
 package xyz.quaver.hiyobi
 
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.*
-import xyz.quaver.Code
-import xyz.quaver.hitomi.GalleryBlock
-import xyz.quaver.hitomi.protocol
 import xyz.quaver.json
 import xyz.quaver.readText
 import java.net.URL
 
-fun getGalleryBlock(galleryID: Int) : GalleryBlock {
-    val url = "$protocol//api.$hiyobi/gallery/$galleryID"
+@Serializable
+data class GalleryBlock(
+    val id: String,
+    val galleryUrl: String,
+    val thumbnails: List<String>,
+    val title: String,
+    val artists: List<String>,
+    val series: List<String>,
+    val type: String,
+    val language: String,
+    val relatedTags: List<String>
+)
+
+fun getGalleryBlock(galleryID: String) : GalleryBlock {
+    val url = "https://api.$hiyobi/gallery/$galleryID"
     
     val galleryBlock = json.parseToJsonElement(URL(url).readText()).jsonObject
 
     val galleryUrl = "reader/$galleryID"
 
-    val thumbnails = listOf("$protocol//cdn.$hiyobi/tn/$galleryID.jpg")
+    val thumbnails = listOf("https://cdn.$hiyobi/tn/$galleryID.jpg")
 
     val title = galleryBlock["title"]!!.jsonPrimitive.content
     val artists = galleryBlock["artists"]?.jsonArray?.mapNotNull {
@@ -54,7 +65,5 @@ fun getGalleryBlock(galleryID: Int) : GalleryBlock {
         it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
     } ?: listOf()
 
-    return GalleryBlock(Code.HIYOBI, galleryID, galleryUrl, thumbnails, title, artists, series, type, language, relatedTags)
+    return GalleryBlock(galleryID, galleryUrl, thumbnails, title, artists, series, type, language, relatedTags)
 }
-
-fun getGalleryBlockOrNull(galleryID: Int) = runCatching { getGalleryBlock(galleryID) }.getOrNull()

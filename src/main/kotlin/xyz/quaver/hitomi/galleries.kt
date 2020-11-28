@@ -78,5 +78,3 @@ fun getGallery(galleryID: Int) : Gallery {
 
     return Gallery(related, langList, cover, title, artists, groups, type, language, series, characters, tags, thumbnails)
 }
-
-fun getGalleryOrNull(galleryID: Int) = runCatching { getGallery(galleryID) }.getOrNull()

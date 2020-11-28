@@ -16,45 +16,59 @@
 
 package xyz.quaver.hiyobi
 
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withTimeout
-import kotlinx.coroutines.withTimeoutOrNull
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
-import okhttp3.Request
-import xyz.quaver.*
 import xyz.quaver.hitomi.GalleryFiles
-import xyz.quaver.hitomi.GalleryInfo
-import xyz.quaver.hitomi.Reader
-import xyz.quaver.hitomi.protocol
-import java.io.IOException
+import xyz.quaver.json
+import xyz.quaver.readText
 import java.net.URL
 
 const val hiyobi = "hiyobi.me"
 const val primary_img_domain = "cdn.hiyobi.me"
 
+@Serializable
 data class Images(
     val path: String,
-    val no: Int,
+    val no: String,
     val name: String
 )
 
-fun getReader(galleryID: Int) : Reader {
+@Serializable
+data class GalleryInfo(
+    val language_localname: String? = null,
+    val language: String? = null,
+    val date: String? = null,
+    val files: List<GalleryFiles>,
+    val id: String? = null,
+    val type: String? = null,
+    val title: String? = null
+)
+fun getGalleryInfo(galleryID: String) : GalleryInfo {
     val list = "https://cdn.$hiyobi/json/${galleryID}_list.json"
 
     val galleryFiles = json.decodeFromString<List<GalleryFiles>>(URL(list).readText())
 
     val title = getGalleryBlock(galleryID).title
 
-    return Reader(Code.HIYOBI, GalleryInfo(id = galleryID, title = title, files = galleryFiles))
+    return GalleryInfo(id = galleryID, title = title, files = galleryFiles)
 }
 
-fun createImgList(galleryID: Int, reader: Reader, lowQuality: Boolean = false) =
+@Deprecated("", replaceWith = ReplaceWith("getGalleryInfo"))
+fun getReader(galleryID: String) : GalleryInfo {
+    val list = "https://cdn.$hiyobi/json/${galleryID}_list.json"
+
+    val galleryFiles = json.decodeFromString<List<GalleryFiles>>(URL(list).readText())
+
+    val title = getGalleryBlock(galleryID).title
+
+    return GalleryInfo(id = galleryID, title = title, files = galleryFiles)
+}
+
+fun createImgList(galleryID: String, galleryInfo: GalleryInfo, lowQuality: Boolean = false) =
     if (lowQuality)
-        reader.galleryInfo.files.map {
+        galleryInfo.files.map {
             val name = it.name.replace(Regex("""\.[^/.]+$"""), "")
-            Images("$protocol//$primary_img_domain/data_r/$galleryID/$name.jpg", galleryID, it.name)
+            Images("https://$primary_img_domain/data_r/$galleryID/$name.jpg", galleryID, it.name)
         }
     else
-        reader.galleryInfo.files.map { Images("$protocol//$primary_img_domain/data/$galleryID/${it.name}", galleryID, it.name) }
+        galleryInfo.files.map { Images("https://$primary_img_domain/data/$galleryID/${it.name}", galleryID, it.name) }
