@@ -7,6 +7,7 @@ import okhttp3.RequestBody
 import xyz.quaver.client
 import xyz.quaver.json
 import java.io.IOException
+import kotlin.math.*
 
 private const val PER_PAGE = 15
 fun search(query: String, range: IntRange): Pair<List<GalleryBlock>, Int> {
@@ -34,10 +35,10 @@ fun search(query: String, range: IntRange): Pair<List<GalleryBlock>, Int> {
                 .build()
         ).execute().also { if (it.code() != 200) throw IOException() }.body()?.use { it.string() } ?: throw IOException()
 
-        val respose = Json.parseToJsonElement(text)
+        val response = Json.parseToJsonElement(text)
 
         if (count < 0)
-            count = respose.jsonObject["count"]?.jsonPrimitive?.int ?: -1
+            count = response.jsonObject["count"]?.jsonPrimitive?.int ?: return Pair(emptyList(), 0)
 
         val slice = when {
             index != 0 && index != range.last / PER_PAGE -> 0 until PER_PAGE
@@ -47,10 +48,11 @@ fun search(query: String, range: IntRange): Pair<List<GalleryBlock>, Int> {
             else -> error("")
         }
 
-        result.addAll(
-            (respose.jsonObject["list"]?.jsonArray?.mapNotNull { json.decodeFromJsonElement<GalleryBlock>(it) } ?: emptyList())
-                .slice(slice)
-        )
+        val list = response.jsonObject["list"]?.jsonArray ?: emptyList()
+
+        val sanitizedSlice = max(0, slice.first) .. min(slice.last, list.size-1)
+
+        result.addAll(list.map { json.decodeFromJsonElement<GalleryBlock>(it) }.slice(sanitizedSlice))
     }
 
     return Pair(result, count)
@@ -72,10 +74,10 @@ fun list(range: IntRange): Pair<List<GalleryBlock>, Int> {
                 .build()
         ).execute().also { if (it.code() != 200) throw IOException() }.body()?.use { it.string() } ?: throw IOException()
 
-        val respose = Json.parseToJsonElement(text)
+        val response = Json.parseToJsonElement(text)
 
         if (count < 0)
-            count = respose.jsonObject["count"]?.jsonPrimitive?.int ?: -1
+            count = response.jsonObject["count"]?.jsonPrimitive?.int ?: return Pair(emptyList(), 0)
 
         val slice = when {
             index != 0 && index != range.last / PER_PAGE -> 0 until PER_PAGE
@@ -85,10 +87,11 @@ fun list(range: IntRange): Pair<List<GalleryBlock>, Int> {
             else -> error("")
         }
 
-        result.addAll(
-            (respose.jsonObject["list"]?.jsonArray?.mapNotNull { json.decodeFromJsonElement<GalleryBlock>(it) } ?: emptyList())
-                .slice(slice)
-        )
+        val list = response.jsonObject["list"]?.jsonArray ?: emptyList()
+
+        val sanitizedSlice = max(0, slice.first) .. min(slice.last, list.size-1)
+
+        result.addAll(list.map { json.decodeFromJsonElement<GalleryBlock>(it) }.slice(sanitizedSlice))
     }
 
     return Pair(result, count)

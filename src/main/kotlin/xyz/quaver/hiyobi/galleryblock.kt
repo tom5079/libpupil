@@ -34,8 +34,8 @@ data class ValueDisplay(
 enum class Type {
     @SerialName("1") Doujinshi,
     @SerialName("2") Manga,
-    @SerialName("3") ArtistCG,
-    @SerialName("4") GameCG,
+    @SerialName("3") Artist_CG,
+    @SerialName("4") Game_CG,
 }
 
 @Serializable
