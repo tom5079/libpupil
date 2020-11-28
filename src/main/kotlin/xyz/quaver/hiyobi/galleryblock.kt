@@ -16,75 +16,47 @@
 
 package xyz.quaver.hiyobi
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.*
 import xyz.quaver.json
 import xyz.quaver.readText
 import java.net.URL
 
 @Serializable
+data class ValueDisplay(
+    val value: String,
+    val display: String
+)
+
+@Serializable
+enum class Type {
+    @SerialName("1") Doujinshi,
+    @SerialName("2") Manga,
+    @SerialName("3") ArtistCG,
+    @SerialName("4") GameCG,
+}
+
+@Serializable
 data class GalleryBlock(
     val id: String,
-    val galleryUrl: String,
-    val thumbnails: List<String>,
+    val uid: String,
     val title: String,
-    val artists: List<String>,
-    val groups: List<String>,
-    val parodys: List<String>,
-    val characters: List<String>,
-    val relatedTags: List<String>,
-    val type: String,
-    val language: String
+    val uploader: String,
+    val uploadername: String,
+    val artists: List<ValueDisplay>,
+    val groups: List<ValueDisplay>,
+    val parodys: List<ValueDisplay>,
+    val characters: List<ValueDisplay>,
+    val tags: List<ValueDisplay>,
+    val language: String,
+    val type: Type,
+    val category: Int
 )
 
 fun getGalleryBlock(galleryID: String) : GalleryBlock {
     val url = "https://api.$hiyobi/gallery/$galleryID"
     
-    val galleryBlock = json.parseToJsonElement(URL(url).readText()).jsonObject
-
-    val galleryUrl = "reader/$galleryID"
-
-    val thumbnails = listOf("https://cdn.$hiyobi/tn/$galleryID.jpg")
-
-    val title = galleryBlock["title"]!!.jsonPrimitive.content
-    val artists = galleryBlock["artists"]?.jsonArray?.mapNotNull {
-        it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
-    } ?: listOf()
-    val groups = galleryBlock["groups"]?.jsonArray?.mapNotNull {
-        it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
-    } ?: listOf()
-    val parodys = galleryBlock["parodys"]?.jsonArray?.mapNotNull {
-        it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
-    } ?: listOf()
-    val characters = galleryBlock["characters"]?.jsonArray?.mapNotNull {
-        it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
-    } ?: listOf()
-
-    val tags = galleryBlock["tags"]?.jsonArray?.mapNotNull {
-        it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
-    } ?: listOf()
-
-    val type = when (galleryBlock["type"]?.jsonPrimitive?.intOrNull) {
-        1 -> "doujinshi"
-        2 -> "manga"
-        3 -> "artistcg"
-        4 -> "gamecg"
-        else -> ""
-    }
-
-    val language = "korean"
-
-    return GalleryBlock(
-        galleryID,
-        galleryUrl,
-        thumbnails,
-        title,
-        artists,
-        groups,
-        parodys,
-        characters,
-        tags,
-        type,
-        language
-    )
+    return json.decodeFromString(URL(url).readText())
 }

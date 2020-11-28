@@ -20,6 +20,7 @@ package xyz.quaver.hitomi
 
 import org.junit.Test
 import xyz.quaver.availableInHiyobi
+import xyz.quaver.hiyobi.list
 import xyz.quaver.hiyobi.search
 
 class UnitTest {
@@ -133,5 +134,10 @@ class UnitTest {
     @Test
     fun test_hiyobi_search() {
         print(search("female:loli", 0 .. 50))
+    }
+
+    @Test
+    fun test_hiyobi_list() {
+        print(list(0 .. 50))
     }
 }
