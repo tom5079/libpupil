@@ -29,10 +29,12 @@ data class GalleryBlock(
     val thumbnails: List<String>,
     val title: String,
     val artists: List<String>,
-    val series: List<String>,
+    val groups: List<String>,
+    val parodys: List<String>,
+    val characters: List<String>,
+    val relatedTags: List<String>,
     val type: String,
-    val language: String,
-    val relatedTags: List<String>
+    val language: String
 )
 
 fun getGalleryBlock(galleryID: String) : GalleryBlock {
@@ -48,9 +50,20 @@ fun getGalleryBlock(galleryID: String) : GalleryBlock {
     val artists = galleryBlock["artists"]?.jsonArray?.mapNotNull {
         it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
     } ?: listOf()
-    val series = galleryBlock["parodys"]?.jsonArray?.mapNotNull {
+    val groups = galleryBlock["groups"]?.jsonArray?.mapNotNull {
         it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
     } ?: listOf()
+    val parodys = galleryBlock["parodys"]?.jsonArray?.mapNotNull {
+        it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
+    } ?: listOf()
+    val characters = galleryBlock["characters"]?.jsonArray?.mapNotNull {
+        it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
+    } ?: listOf()
+
+    val tags = galleryBlock["tags"]?.jsonArray?.mapNotNull {
+        it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
+    } ?: listOf()
+
     val type = when (galleryBlock["type"]?.jsonPrimitive?.intOrNull) {
         1 -> "doujinshi"
         2 -> "manga"
@@ -61,9 +74,17 @@ fun getGalleryBlock(galleryID: String) : GalleryBlock {
 
     val language = "korean"
 
-    val relatedTags = galleryBlock["tags"]?.jsonArray?.mapNotNull {
-        it.jsonObject["value"]?.jsonPrimitive?.contentOrNull
-    } ?: listOf()
-
-    return GalleryBlock(galleryID, galleryUrl, thumbnails, title, artists, series, type, language, relatedTags)
+    return GalleryBlock(
+        galleryID,
+        galleryUrl,
+        thumbnails,
+        title,
+        artists,
+        groups,
+        parodys,
+        characters,
+        tags,
+        type,
+        language
+    )
 }
