@@ -38,7 +38,7 @@ fun doSearch(query: String, sortByPopularity: Boolean = false) : Set<Int> {
     for (term in terms) {
         if (term.matches(Regex("^-.+")))
             negativeTerms.push(term.replace(Regex("^-"), ""))
-        else
+        else if (term.isNotBlank())
             positiveTerms.push(term)
     }
 

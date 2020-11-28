@@ -20,6 +20,10 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.plus
+import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.modules.subclass
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
@@ -58,9 +62,9 @@ val json = Json {
  * @param galleryID Gallery ID to be checked
  * @return true if the gallery exists, false otherwise
  */
-fun availableInHiyobi(galleryID: Int) : Boolean {
+fun availableInHiyobi(galleryID: String) : Boolean {
     return try {
-        xyz.quaver.hiyobi.getReader(galleryID)
+        xyz.quaver.hiyobi.getGalleryInfo(galleryID)
         true
     } catch (e: Exception) {
         false

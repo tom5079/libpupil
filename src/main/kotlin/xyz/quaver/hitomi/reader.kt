@@ -16,8 +16,8 @@
 
 package xyz.quaver.hitomi
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import xyz.quaver.Code
 
 fun getReferer(galleryID: Int) = "https://hitomi.la/reader/$galleryID.html"
 
@@ -43,16 +43,8 @@ data class GalleryFiles(
     val hasavifsmalltn: Int? = 0
 )
 
-/**
- * Reader class contains information about individual images in each gallery
- *
- * @property[code] Code for site of origin
- * @property[galleryInfo] Image information about Images
- */
-@Serializable
-data class Reader(val code: Code, val galleryInfo: GalleryInfo)
-
 //Set header `Referer` to reader url to avoid 403 error
-fun getReader(galleryID: Int) : Reader {
-   return Reader(Code.HITOMI, getGalleryInfo(galleryID))
+@Deprecated("", replaceWith = ReplaceWith("getGalleryInfo"))
+fun getReader(galleryID: Int) : GalleryInfo {
+   return getGalleryInfo(galleryID)
 }
