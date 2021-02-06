@@ -41,6 +41,9 @@ fun doSearch(query: String, sortByPopularity: Boolean = false) : Set<Int> {
             positiveTerms.push(term)
     }
 
+    println(positiveTerms)
+    println(negativeTerms.size)
+
     val positiveResults = positiveTerms.map {
         CoroutineScope(Dispatchers.IO).async {
             getGalleryIDsForQuery(it)
@@ -49,7 +52,9 @@ fun doSearch(query: String, sortByPopularity: Boolean = false) : Set<Int> {
 
     val negativeResults = negativeTerms.map {
         CoroutineScope(Dispatchers.IO).async {
-            getGalleryIDsForQuery(it)
+            getGalleryIDsForQuery(it).also { a ->
+                println("$it: ${a.size}")
+            }
         }
     }
 

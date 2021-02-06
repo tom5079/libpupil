@@ -120,6 +120,6 @@ class UnitTest {
 
     @Test
     fun test_parse() {
-        print(doSearch("female:gag (language:korean OR language:japanese OR language:english)").size)
+        print(doSearch("-female:sole_dickgirl ‐female:scat -female:futanari -female:furry -female:male_on_dickgirl -female:shemale -male:males_only").size)
     }
 }
