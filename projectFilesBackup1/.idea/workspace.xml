@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="21fb51da-ba19-4a2b-86f4-1538704c28df" name="Default Changelist" comment="Updated .gitignore">
+      <change afterPath="$PROJECT_DIR$/.idea/kotlinScripting.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="libpupil" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="libpupil" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="libpupil" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="documentation" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="libpupil" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="help" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="libpupil" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="publishing" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1gPWEPeY0oSXD6VZnos9IL0ITbX" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PupilBot" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+  </component>
+  <component name="RunManager" selected="Gradle.libpupil [publish]">
+    <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="libpupil [publish]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="publish" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="UnitTest.test_getImages" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="libpupil" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="xyz.quaver.hitomi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="xyz.quaver.hitomi" />
+      <option name="MAIN_CLASS_NAME" value="xyz.quaver.hitomi.UnitTest" />
+      <option name="METHOD_NAME" value="test_getImages" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTest.test_hiyobi_galleryBlock" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="libpupil" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="xyz.quaver.hitomi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="xyz.quaver.hitomi" />
+      <option name="MAIN_CLASS_NAME" value="xyz.quaver.hitomi.UnitTest" />
+      <option name="METHOD_NAME" value="test_hiyobi_galleryBlock" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTest.test_hiyobi_list" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="libpupil" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="xyz.quaver.hitomi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="xyz.quaver.hitomi" />
+      <option name="MAIN_CLASS_NAME" value="xyz.quaver.hitomi.UnitTest" />
+      <option name="METHOD_NAME" value="test_hiyobi_list" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UnitTest.test_hiyobi_search" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="libpupil" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="xyz.quaver.hitomi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="xyz.quaver.hitomi" />
+      <option name="MAIN_CLASS_NAME" value="xyz.quaver.hitomi.UnitTest" />
+      <option name="METHOD_NAME" value="test_hiyobi_search" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.libpupil [publish]" />
+        <item itemvalue="JUnit.UnitTest.test_hiyobi_search" />
+        <item itemvalue="JUnit.UnitTest.test_hiyobi_list" />
+        <item itemvalue="JUnit.UnitTest.test_hiyobi_galleryBlock" />
+        <item itemvalue="JUnit.UnitTest.test_getImages" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="21fb51da-ba19-4a2b-86f4-1538704c28df" name="Default Changelist" comment="" />
+      <created>1598016595806</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1598016595806</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Migrated to OkHTTP">
+      <created>1598688791287</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1598688791287</updated>
+    </task>
+    <task id="LOCAL-00002" summary="getGallery() language fix">
+      <created>1598868688883</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1598868688883</updated>
+    </task>
+    <task id="LOCAL-00003" summary="getGalleryBlock() language fix&#10;Rebuilt using JDK8">
+      <created>1598936829721</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1598936829721</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Fixed HIYOBI Reader not containing galleryID">
+      <created>1599471902237</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1599471902237</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Removed hiyobi header settings as it is not necessary anymore">
+      <created>1599561225109</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1599561225109</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Bug fix">
+      <created>1599744851026</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1599744851026</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Gallery language not properly parsed on some galleries fixed">
+      <created>1601082398649</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1601082398649</updated>
+    </task>
+    <task id="LOCAL-00008" summary="hiyobi search WIP">
+      <created>1601369606053</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1601369606053</updated>
+    </task>
+    <task id="LOCAL-00009" summary="supports COMPLEX search">
+      <created>1602946726800</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1602946726800</updated>
+    </task>
+    <task id="LOCAL-00010" summary="supports COMPLEX search&#10;hitomi.la image server domain name changed">
+      <created>1603255954805</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1603255954805</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Speed optimization">
+      <created>1603372312803</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1603372312803</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Speed optimization">
+      <created>1603372328633</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1603372328633</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Speed optimization">
+      <created>1603374064089</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1603374064089</updated>
+    </task>
+    <task id="LOCAL-00014" summary="revert to old methods">
+      <created>1603374779878</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1603374779878</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Bug fix">
+      <created>1603506120057</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1603506120057</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Bug fix">
+      <created>1603550728592</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1603550728592</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Bug fix">
+      <created>1603552077665</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1603552077665</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Dependency update">
+      <created>1604827741627</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1604827741627</updated>
+    </task>
+    <task id="LOCAL-00019" summary="1.9.2">
+      <created>1606534272378</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1606534272378</updated>
+    </task>
+    <task id="LOCAL-00020" summary="1.9.3">
+      <created>1606535232907</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1606535232908</updated>
+    </task>
+    <task id="LOCAL-00021" summary="1.9.4">
+      <created>1606547653771</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1606547653771</updated>
+    </task>
+    <task id="LOCAL-00022" summary="1.9.7">
+      <created>1606562847364</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1606562847364</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Migrated to MavenCentral">
+      <created>1612592202271</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1612592202271</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Updated .gitignore">
+      <created>1612618024605</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1612618024605</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Migrated to OkHTTP" />
+    <MESSAGE value="getGallery() language fix" />
+    <MESSAGE value="getGalleryBlock() language fix&#10;Rebuilt using JDK8" />
+    <MESSAGE value="Fixed HIYOBI Reader not containing galleryID" />
+    <MESSAGE value="Removed hiyobi header settings as it is not necessary anymore" />
+    <MESSAGE value="Gallery language not properly parsed on some galleries fixed" />
+    <MESSAGE value="hiyobi search WIP" />
+    <MESSAGE value="supports COMPLEX search" />
+    <MESSAGE value="supports COMPLEX search&#10;hitomi.la image server domain name changed" />
+    <MESSAGE value="Speed optimization" />
+    <MESSAGE value="revert to old methods" />
+    <MESSAGE value="Bug fix" />
+    <MESSAGE value="Dependency update" />
+    <MESSAGE value="1.9.2" />
+    <MESSAGE value="1.9.3" />
+    <MESSAGE value="1.9.4" />
+    <MESSAGE value="1.9.6" />
+    <MESSAGE value="1.9.7" />
+    <MESSAGE value="Migrated to MavenCentral" />
+    <MESSAGE value="Updated .gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated .gitignore" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint type="java-exception">
+          <properties class="java.nio.BufferUnderflowException" package="java.nio" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="((LinkedHashMap.Entry)((kotlinx.serialization.json.JsonObject)respose).entrySet().toArray()[0]).getValue()" custom="java.util.LinkedHashMap.Entry,kotlinx.serialization.json.JsonObject" />
+        <watch expression="range.last % PER_PAGE" language="kotlin" />
+        <watch expression="(respose.jsonObject[&quot;list&quot;]?.jsonArray?.mapNotNull { it.jsonObject[&quot;id&quot;]?.jsonPrimitive?.int } ?: emptyList())" language="kotlin" />
+      </configuration>
+      <configuration name="Remote">
+        <watch expression="bytes" language="kotlin" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

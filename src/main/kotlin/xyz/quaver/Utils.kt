@@ -56,21 +56,6 @@ val json = Json {
     useArrayPolymorphism = true
 }
 
-/**
- * Check if gallery is available in [hiyobi](https://hiyobi.me)
- *
- * @param galleryID Gallery ID to be checked
- * @return true if the gallery exists, false otherwise
- */
-fun availableInHiyobi(galleryID: String) : Boolean {
-    return try {
-        xyz.quaver.hiyobi.getGalleryInfo(galleryID)
-        true
-    } catch (e: Exception) {
-        false
-    }
-}
-
 typealias HeaderSetter = (Request.Builder) -> Request.Builder
 fun URL.readText(settings: HeaderSetter? = null): String {
     val request = Request.Builder()

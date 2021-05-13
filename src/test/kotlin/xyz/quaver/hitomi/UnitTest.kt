@@ -91,33 +91,12 @@ class UnitTest {
     }
 
     @Test
-    fun test_hiyobi() {
-        val galleryInfo = xyz.quaver.hiyobi.getGalleryInfo("369421")
-
-        print(galleryInfo.files)
-    }
-
-    @Test
     fun test_urlFromUrlFromHash() {
         val url = urlFromUrlFromHash(1531795, GalleryFiles(
             212, "719d46a7556be0d0021c5105878507129b5b3308b02cf67f18901b69dbb3b5ef", 1, "00.jpg", 300
         ), "webp")
 
         print(url)
-    }
-
-    @Test
-    fun test_availableInHiyobi() {
-        val result = availableInHiyobi("V8Fdz2")
-
-        print(result)
-    }
-
-    @Test
-    fun test_hiyobi_galleryBlock() {
-        val galleryBlock = xyz.quaver.hiyobi.getGalleryBlock("V8Fdz2")
-
-        print(galleryBlock)
     }
 
     @Test
@@ -129,15 +108,5 @@ class UnitTest {
     @Test
     fun test_parse() {
         print(doSearch("-male:yaoi -female:yaoi -female:loli").size)
-    }
-
-    @Test
-    fun test_hiyobi_search() {
-        print(search("female:loli", 0 .. 50))
-    }
-
-    @Test
-    fun test_hiyobi_list() {
-        print(list(0 .. 50))
     }
 }
