@@ -32,6 +32,7 @@ fun getGalleryInfo(galleryID: Int) =
 
 //common.js
 const val domain = "ltn.hitomi.la"
+const val galleryblockextension = ".html"
 const val galleryblockdir = "galleryblock"
 const val nozomiextension = ".nozomi"
 
@@ -56,9 +57,9 @@ fun subdomainFromURL(url: String, base: String? = null) : String {
     var g = m.groupValues[1].toIntOrNull(b)
 
     if (g != null) {
-        if (g < 0x30)
+        if (g < 0x80)
             numberOfFrontends = 2
-        if (g < 0x09)
+        if (g < 0x59)
             g = 1
 
         retval = subdomainFromGalleryID(g, numberOfFrontends) + retval

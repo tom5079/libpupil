@@ -19,16 +19,15 @@
 package xyz.quaver.hitomi
 
 import org.junit.Test
-import xyz.quaver.availableInHiyobi
-import xyz.quaver.hiyobi.list
-import xyz.quaver.hiyobi.search
+import java.util.*
 
 class UnitTest {
     @Test
     fun test_empty() {
-        print("".trim()
-            .replace(Regex("""^\?"""), "")
-            .toLowerCase()
+        print(
+            "".trim()
+                    .replace(Regex("""^\?"""), "")
+                .lowercase(Locale.getDefault())
             .split(Regex("\\s+"))
             .map {
                 it.replace('_', ' ')
@@ -78,15 +77,15 @@ class UnitTest {
 
     @Test
     fun test_getReader() {
-        val reader = getReader(1722144)
+        val reader = getGalleryInfo(1722144)
 
         print(reader)
     }
 
     @Test
     fun test_getImages() {
-        val reader = getGalleryInfo(1715013).files.forEach {
-            println(imageUrlFromImage(1715013, it, false))
+        val reader = getGalleryInfo(1929109).files.forEach {
+            println(imageUrlFromImage(1929109, it, false))
         }
     }
 

@@ -26,7 +26,7 @@ fun doSearch(query: String, sortByPopularity: Boolean = false) : Set<Int> {
     val terms = query
         .trim()
         .replace(Regex("""^\?"""), "")
-        .toLowerCase(Locale.US)
+        .lowercase()
         .split(Regex("\\s+"))
         .map {
             it.replace('_', ' ')

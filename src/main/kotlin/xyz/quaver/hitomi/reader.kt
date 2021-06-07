@@ -16,7 +16,6 @@
 
 package xyz.quaver.hitomi
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 fun getReferer(galleryID: Int) = "https://hitomi.la/reader/$galleryID.html"
