@@ -56,7 +56,7 @@ class UnitTest {
 
     @Test
     fun test_doSearch() {
-        val r = doSearch("female:loli female:bondage language:korean -male:yaoi -male:guro -female:guro", true)
+        val r = doSearch("-male:monster -female:alien -female:femdom -male:long_tongue -female:tentacles -female:dick_growth -female:bbw -female:enema -female:prolapse -female:pregnant -female:eggs -female:scat -female:mother -female:amputee -female:cannibalism -female:bestiality -female:futanari -female:huge_breasts -female:loli", true)
 
         print(r.size)
     }

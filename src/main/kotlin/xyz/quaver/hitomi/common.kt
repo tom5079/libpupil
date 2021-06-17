@@ -57,9 +57,9 @@ fun subdomainFromURL(url: String, base: String? = null) : String {
     var g = m.groupValues[1].toIntOrNull(b)
 
     if (g != null) {
-        if (g < 0x80)
+        if (g < 0x70)
             numberOfFrontends = 2
-        if (g < 0x59)
+        if (g < 0x49)
             g = 1
 
         retval = subdomainFromGalleryID(g, numberOfFrontends) + retval

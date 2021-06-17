@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "xyz.quaver"
-version = "2.1.0"
+version = "2.1.1"
 
 repositories {
     mavenCentral()
@@ -21,6 +21,10 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:3.12.12")
 
     testImplementation("junit:junit:4.13")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
 }
 
 java {
