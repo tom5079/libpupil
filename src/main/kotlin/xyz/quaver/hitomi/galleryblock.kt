@@ -78,7 +78,7 @@ data class GalleryBlock(
 fun getGalleryBlock(galleryID: Int) : GalleryBlock {
     val url = "$protocol//$domain/$galleryblockdir/$galleryID$extension"
 
-    val doc = Jsoup.parse(URL(url).readText())
+    val doc = Jsoup.parse(rewriteTnPaths(URL(url).readText()))
 
     val galleryUrl = doc.selectFirst(".lillie").attr("href")
 
@@ -89,10 +89,10 @@ fun getGalleryBlock(galleryID: Int) : GalleryBlock {
     val series = doc.select("a[href~=^/series/]").map { it.text() }
     val type = doc.selectFirst("a[href~=^/type/]").text()
 
-    val language = {
+    val language = run {
         val href = doc.select("a[href~=^/index.+\\.html\$]").attr("href")
         Regex("""index-([^-]+)(-.+)?\.html""").find(href)?.groupValues?.getOrNull(1) ?: ""
-    }.invoke()
+    }
 
     val relatedTags = doc.select(".relatedtags a").map {
         val href = URLDecoder.decode(it.attr("href"), "UTF-8")

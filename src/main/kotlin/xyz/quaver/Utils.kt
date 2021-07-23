@@ -28,12 +28,14 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 import java.net.URL
+import java.util.concurrent.TimeUnit
+import kotlin.time.Duration
 
 private var mutex = Mutex()
 private var clientInstance: OkHttpClient? = null
 val client
     get() = clientInstance
-        ?: OkHttpClient().also { runBlocking { mutex.withLock {  
+        ?: OkHttpClient.Builder().connectTimeout(1, TimeUnit.SECONDS).build().also { runBlocking { mutex.withLock {
             clientInstance = it    
         } } }
 

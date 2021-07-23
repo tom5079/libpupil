@@ -54,15 +54,17 @@ fun subdomainFromURL(url: String, base: String? = null) : String {
     val r = Regex("""/[0-9a-f]/([0-9a-f]{2})/""")
     val m = r.find(url) ?: return "a"
 
-    var g = m.groupValues[1].toIntOrNull(b)
+    val g = m.groupValues[1].toIntOrNull(b)
 
     if (g != null) {
-        if (g < 0x70)
-            numberOfFrontends = 2
-        if (g < 0x49)
-            g = 1
+        val o = when {
+            g < 0x40 -> 2
+            g < 0x80 -> 1
+            else -> 0
+        };
 
-        retval = subdomainFromGalleryID(g, numberOfFrontends) + retval
+        // retval = subdomainFromGalleryID(g, numberOfFrontends) + retval
+        retval = (97+o).toChar().toString() + retval
     }
 
     return retval
@@ -90,15 +92,20 @@ fun urlFromHash(galleryID: Int, image: GalleryFiles, dir: String? = null, ext: S
 fun urlFromUrlFromHash(galleryID: Int, image: GalleryFiles, dir: String? = null, ext: String? = null, base: String? = null) =
     urlFromURL(urlFromHash(galleryID, image, dir, ext), base)
 
+fun rewriteTnPaths(html: String) =
+    html.replace(Regex("""//tn\.hitomi\.la/[^/]+/[0-9a-f]/[0-9a-f]{2}/""")) { url ->
+        urlFromURL(url.value, "tn")
+    }
+
 fun imageUrlFromImage(galleryID: Int, image: GalleryFiles, noWebp: Boolean) : String {
     return when {
         noWebp ->
-            urlFromUrlFromHash(galleryID, image)
+            urlFromUrlFromHash(galleryID, image, base = "a")
       //image.hasavif != 0 ->
       //    urlFromUrlFromHash(galleryID, image, "avif", null, "a")
         image.haswebp != 0 ->
             urlFromUrlFromHash(galleryID, image, "webp", null, "a")
         else ->
-            urlFromUrlFromHash(galleryID, image)
+            urlFromUrlFromHash(galleryID, image, base = "a")
     }
 }

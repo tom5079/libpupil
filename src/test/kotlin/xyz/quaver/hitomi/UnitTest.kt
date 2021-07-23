@@ -18,7 +18,9 @@
 
 package xyz.quaver.hitomi
 
+import okhttp3.Request
 import org.junit.Test
+import xyz.quaver.client
 import java.util.*
 
 class UnitTest {
@@ -107,5 +109,11 @@ class UnitTest {
     @Test
     fun test_parse() {
         print(doSearch("-male:yaoi -female:yaoi -female:loli").size)
+    }
+
+    @Test
+    fun test_subdomainFromUrl() {
+        val galleryInfo = getGalleryInfo(1929109).files[2]
+        print(urlFromUrlFromHash(1929109, galleryInfo, "webp", null, "a"))
     }
 }
