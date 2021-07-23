@@ -61,7 +61,7 @@ fun subdomainFromURL(url: String, base: String? = null) : String {
             g < 0x40 -> 2
             g < 0x80 -> 1
             else -> 0
-        };
+        }
 
         // retval = subdomainFromGalleryID(g, numberOfFrontends) + retval
         retval = (97+o).toChar().toString() + retval
@@ -100,12 +100,12 @@ fun rewriteTnPaths(html: String) =
 fun imageUrlFromImage(galleryID: Int, image: GalleryFiles, noWebp: Boolean) : String {
     return when {
         noWebp ->
-            urlFromUrlFromHash(galleryID, image, base = "a")
+            urlFromUrlFromHash(galleryID, image)
       //image.hasavif != 0 ->
       //    urlFromUrlFromHash(galleryID, image, "avif", null, "a")
         image.haswebp != 0 ->
             urlFromUrlFromHash(galleryID, image, "webp", null, "a")
         else ->
-            urlFromUrlFromHash(galleryID, image, base = "a")
+            urlFromUrlFromHash(galleryID, image)
     }
 }

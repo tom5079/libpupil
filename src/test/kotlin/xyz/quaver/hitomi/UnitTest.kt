@@ -86,8 +86,8 @@ class UnitTest {
 
     @Test
     fun test_getImages() {
-        val reader = getGalleryInfo(1929109).files.forEach {
-            println(imageUrlFromImage(1929109, it, false))
+        val reader = getGalleryInfo(1034095).files.forEach {
+            println(imageUrlFromImage(1034095, it, false))
         }
     }
 
