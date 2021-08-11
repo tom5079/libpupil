@@ -58,8 +58,8 @@ fun subdomainFromURL(url: String, base: String? = null) : String {
 
     if (g != null) {
         val o = when {
-            g < 0x40 -> 2
-            g < 0x80 -> 1
+            g < 0x44 -> 2
+            g < 0x88 -> 1
             else -> 0
         }
 

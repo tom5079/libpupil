@@ -18,6 +18,8 @@
 
 package xyz.quaver.hitomi
 
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import okhttp3.Request
 import org.junit.Test
 import xyz.quaver.client
@@ -58,16 +60,16 @@ class UnitTest {
 
     @Test
     fun test_doSearch() {
-        val r = doSearch("-male:monster -female:alien -female:femdom -male:long_tongue -female:tentacles -female:dick_growth -female:bbw -female:enema -female:prolapse -female:pregnant -female:eggs -female:scat -female:mother -female:amputee -female:cannibalism -female:bestiality -female:futanari -female:huge_breasts -female:loli", true)
+        val r = doSearch("language:korean")
 
-        print(r.size)
+        print(r.take(10))
     }
 
     @Test
     fun test_getBlock() {
-        val galleryBlock = getGalleryBlock(1785000)
+        val galleryBlock = getGalleryBlock(1970906)
 
-        print(galleryBlock)
+        print(Json.encodeToString(galleryBlock))
     }
 
     @Test
