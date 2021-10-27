@@ -48,7 +48,7 @@ fun subdomainFromURL(url: String, base: String? = null) : String {
     if (!base.isNullOrBlank())
         retval = base
 
-    var numberOfFrontends = 3
+    var numberOfFrontends = 2
     val b = 16
 
     val r = Regex("""/[0-9a-f]/([0-9a-f]{2})/""")
@@ -58,8 +58,7 @@ fun subdomainFromURL(url: String, base: String? = null) : String {
 
     if (g != null) {
         val o = when {
-            g < 0x44 -> 2
-            g < 0x88 -> 1
+            g < 0x80 -> 1
             else -> 0
         }
 
