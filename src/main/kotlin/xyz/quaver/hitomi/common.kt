@@ -58,7 +58,7 @@ fun subdomainFromURL(url: String, base: String? = null) : String {
 
     if (g != null) {
         val o = when {
-            g < 0x7b -> 1
+            g < 0x7c -> 1
             else -> 0
         }
 
