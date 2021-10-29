@@ -18,7 +18,6 @@ package xyz.quaver.hitomi
 
 import kotlinx.serialization.Serializable
 import org.jsoup.Jsoup
-import xyz.quaver.readText
 import java.net.URL
 import java.net.URLDecoder
 import java.nio.ByteBuffer

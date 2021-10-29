@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.5.0-RC"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.0-RC"
+    id("org.jetbrains.kotlin.jvm") version "1.5.31"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.31"
     id("org.jetbrains.dokka") version "1.4.32"
     `maven-publish`
     signing
@@ -17,10 +17,10 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0-RC2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation("org.jsoup:jsoup:1.13.1")
-    implementation("com.squareup.okhttp3:okhttp:3.12.12")
+    implementation("org.mozilla:rhino-runtime:1.7.13")
 
     testImplementation("junit:junit:4.13")
 }

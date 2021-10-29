@@ -16,8 +16,6 @@
 
 package xyz.quaver.hitomi
 
-import okhttp3.Request
-import xyz.quaver.client
 import xyz.quaver.readBytes
 import xyz.quaver.readText
 import java.lang.Integer.min
@@ -229,14 +227,8 @@ fun getNodeAtAddress(field: String, address: Long) : Node? {
     return decodeNode(nodedata)
 }
 
-fun getURLAtRange(url: String, range: LongRange) : ByteArray {
-    val request = Request.Builder()
-        .url(url)
-        .header("Range", "bytes=${range.first}-${range.last}")
-        .build()
-    
-    return client.newCall(request).execute().body()?.use { it.bytes() } ?: byteArrayOf()
-}
+fun getURLAtRange(url: String, range: LongRange) : ByteArray =
+    URL(url).readBytes(mapOf("Range" to "bytes=${range.first}-${range.last}"))
 
 @OptIn(ExperimentalUnsignedTypes::class)
 data class Node(val keys: List<UByteArray>, val datas: List<Pair<Long, Int>>, val subNodeAddresses: List<Long>)

@@ -16,34 +16,15 @@
 
 package xyz.quaver
 
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.plus
-import kotlinx.serialization.modules.polymorphic
-import kotlinx.serialization.modules.subclass
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import java.io.IOException
 import java.net.URL
-import java.util.concurrent.TimeUnit
-import kotlin.time.Duration
 
-private var mutex = Mutex()
-private var clientInstance: OkHttpClient? = null
-val client
-    get() = clientInstance
-        ?: OkHttpClient.Builder().connectTimeout(1, TimeUnit.SECONDS).build().also { runBlocking { mutex.withLock {
-            clientInstance = it    
-        } } }
-
-fun setClient(client: OkHttpClient) = runBlocking {
-    mutex.withLock {
-        clientInstance = client
-    }
+interface Client {
+    fun readText(url: URL, headers: Map<String, String>): String
+    fun readBytes(url: URL, headers: Map<String, String>): ByteArray
 }
+
+lateinit var client: Client
 
 /**
  * kotlinx.serialization.json.Json object for global use  
@@ -58,21 +39,5 @@ val json = Json {
     useArrayPolymorphism = true
 }
 
-typealias HeaderSetter = (Request.Builder) -> Request.Builder
-fun URL.readText(settings: HeaderSetter? = null): String {
-    val request = Request.Builder()
-        .url(this).let { 
-            settings?.invoke(it) ?: it
-        }.build()
-    
-    return client.newCall(request).execute().also{ if (it.code() != 200) throw IOException() }.body()?.use { it.string() } ?: throw IOException()
-}
-
-fun URL.readBytes(settings: HeaderSetter? = null): ByteArray {
-    val request = Request.Builder()
-        .url(this).let {
-            settings?.invoke(it) ?: it
-        }.build()
-
-    return client.newCall(request).execute().also { if (it.code() != 200) throw IOException() }.body()?.use { it.bytes() } ?: throw IOException()
-}
+internal fun URL.readText(headers: Map<String, String> = emptyMap()): String = client.readText(this, headers)
+internal fun URL.readBytes(headers: Map<String, String> = emptyMap()): ByteArray = client.readBytes(this, headers)

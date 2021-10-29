@@ -20,10 +20,8 @@ package xyz.quaver.hitomi
 
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import okhttp3.Request
 import org.junit.Test
-import xyz.quaver.client
-import java.util.*
+import java.util.Locale
 
 class UnitTest {
     @Test

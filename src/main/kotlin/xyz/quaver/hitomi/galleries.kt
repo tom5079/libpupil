@@ -18,9 +18,9 @@ package xyz.quaver.hitomi
 
 import kotlinx.serialization.Serializable
 import org.jsoup.Jsoup
-import xyz.quaver.readText
 import java.net.URL
 import java.net.URLDecoder
+import xyz.quaver.readText
 
 @Serializable
 data class Gallery(
@@ -59,10 +59,10 @@ fun getGallery(galleryID: Int) : Gallery {
     val groups = doc.select(".gallery-info a[href~=^/group/]").map { it.text() }
     val type = doc.selectFirst(".gallery-info a[href~=^/type/]").text()
 
-    val language = {
+    val language = run {
         val href = doc.select(".gallery-info a[href~=^/index.+\\.html\$]").attr("href")
         Regex("""index-([^-]+)(-.+)?\.html""").find(href)?.groupValues?.getOrNull(1) ?: ""
-    }.invoke()
+    }
 
     val series = doc.select(".gallery-info a[href~=^/series/]").map { it.text() }
     val characters = doc.select(".gallery-info a[href~=^/character/]").map { it.text() }
