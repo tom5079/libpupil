@@ -80,13 +80,13 @@ fun getGalleryBlock(galleryID: Int) : GalleryBlock {
 
     val doc = Jsoup.parse(rewriteTnPaths(URL(url).readText()))
 
-    val galleryUrl = doc.selectFirst(".lillie").attr("href")
+    val galleryUrl = doc.selectFirst("h1 > a").attr("href")
 
     val thumbnails = doc.select(".dj-img-cont img").map { protocol + it.attr("src") }
 
-    val title = doc.selectFirst("h1.lillie > a").text()
-    val artists = doc.select("div.artist-list a").map{ it.text() }
-    val series = doc.select("a[href~=^/series/]").map { it.text() }
+    val title = doc.selectFirst("h1 > a").text()
+    val artists = doc.select(".artist-list a").map{ it.text() }
+    val series = doc.select(".dj-content a[href~=^/series/]").map { it.text() }
     val type = doc.selectFirst("a[href~=^/type/]").text()
 
     val language = run {
