@@ -68,14 +68,14 @@ class UnitTest {
 
     @Test
     fun test_getBlock() {
-        val galleryBlock = getGalleryBlock(2049821)
+        val galleryBlock = getGalleryBlock(2097576)
 
         print(Json.encodeToString(galleryBlock))
     }
 
     @Test
     fun test_getGallery() {
-        val gallery = getGallery(1771195)
+        val gallery = getGallery(2097751)
 
         print(gallery)
     }

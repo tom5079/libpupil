@@ -87,7 +87,7 @@ fun fullPathFromHash(hash: String) : String =
     "${gg.b}${gg.s(hash)}/$hash"
 
 fun realFullPathFromHash(hash: String): String =
-    hash.replace("""^.*(..)(.)$""", "$2/$1/$hash")
+    hash.replace(Regex("""^.*(..)(.)$"""), "$2/$1/$hash")
 
 fun urlFromHash(galleryID: Int, image: GalleryFiles, dir: String? = null, ext: String? = null) : String {
     val ext = ext ?: dir ?: image.name.takeLastWhile { it != '.' }
