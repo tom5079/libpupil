@@ -36,10 +36,26 @@ const val galleryblockextension = ".html"
 const val galleryblockdir = "galleryblock"
 const val nozomiextension = ".nozomi"
 
-fun subdomainFromGalleryID(g: Int, numberOfFrontends: Int) : String {
-    val o = g % numberOfFrontends
+object gg {
+    private val ggjs by lazy { URL("https://ltn.hitomi.la/gg.js").readText() }
 
-    return (97+o).toChar().toString()
+    private val oMap by lazy {
+        Regex("""case (\d+): o = (\d+); break;""").findAll(ggjs).map { m ->
+            m.groupValues.let { it[1].toInt() to it[2].toInt() }
+        }.toMap()
+    }
+
+    fun m(g: Int): Int {
+        return oMap[g] ?: 0
+    }
+
+    val b: String by lazy { Regex("b: '(.+)'").find(ggjs)?.groupValues?.get(1) ?: "" }
+
+    fun s(h: String): String {
+        val m = Regex("(..)(.)$").find(h)!!
+
+        return m.groupValues.let { (it[2]+it[1]).toInt(16).toString(10) }
+    }
 }
 
 fun subdomainFromURL(url: String, base: String? = null) : String {
@@ -48,52 +64,46 @@ fun subdomainFromURL(url: String, base: String? = null) : String {
     if (!base.isNullOrBlank())
         retval = base
 
-    var numberOfFrontends = 2
     val b = 16
 
-    val r = Regex("""/[0-9a-f]/([0-9a-f]{2})/""")
+    val r = Regex("""/[0-9a-f]{61}([0-9a-f]{2})([0-9a-f])""")
     val m = r.find(url) ?: return "a"
 
-    val g = m.groupValues[1].toIntOrNull(b)
+    val g = m.groupValues.let { it[2]+it[1] }.toIntOrNull(b)
 
     if (g != null) {
-        val o = when {
-            g < 0x7c -> 1
-            else -> 0
-        }
-
-        // retval = subdomainFromGalleryID(g, numberOfFrontends) + retval
-        retval = (97+o).toChar().toString() + retval
+        retval = (97+ gg.m(g)).toChar().toString() + retval
     }
 
     return retval
 }
 
-fun urlFromURL(url: String, base: String? = null) : String {
+fun urlFromUrl(url: String, base: String? = null) : String {
     return url.replace(Regex("""//..?\.hitomi\.la/"""), "//${subdomainFromURL(url, base)}.hitomi.la/")
 }
 
 
-fun fullPathFromHash(hash: String?) : String? {
-    return when {
-        (hash?.length ?: 0) < 3 -> hash
-        else -> hash!!.replace(Regex("^.*(..)(.)$"), "$2/$1/$hash")
-    }
-}
+fun fullPathFromHash(hash: String) : String =
+    "${gg.b}${gg.s(hash)}/$hash"
 
-@Suppress("NAME_SHADOWING", "UNUSED_PARAMETER")
+fun realFullPathFromHash(hash: String): String =
+    hash.replace("""^.*(..)(.)$""", "$2/$1/$hash")
+
 fun urlFromHash(galleryID: Int, image: GalleryFiles, dir: String? = null, ext: String? = null) : String {
-    val ext = ext ?: dir ?: image.name.split('.').last()
+    val ext = ext ?: dir ?: image.name.takeLastWhile { it != '.' }
     val dir = dir ?: "images"
-    return "$protocol//a.hitomi.la/$dir/${fullPathFromHash(image.hash)}.$ext"
+    return "https://a.hitomi.la/$dir/${fullPathFromHash(image.hash)}.$ext"
 }
 
 fun urlFromUrlFromHash(galleryID: Int, image: GalleryFiles, dir: String? = null, ext: String? = null, base: String? = null) =
-    urlFromURL(urlFromHash(galleryID, image, dir, ext), base)
+    if (base == "tn")
+        urlFromUrl("https://a.hitomi.la/$dir/${realFullPathFromHash(image.hash)}.$ext", base)
+    else
+        urlFromUrl(urlFromHash(galleryID, image, dir, ext), base)
 
 fun rewriteTnPaths(html: String) =
     html.replace(Regex("""//tn\.hitomi\.la/[^/]+/[0-9a-f]/[0-9a-f]{2}/""")) { url ->
-        urlFromURL(url.value, "tn")
+        urlFromUrl(url.value, "tn")
     }
 
 fun imageUrlFromImage(galleryID: Int, image: GalleryFiles, noWebp: Boolean) : String {

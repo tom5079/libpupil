@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "xyz.quaver"
-version = "2.1.11"
+version = "2.1.12"
 
 repositories {
     mavenCentral()

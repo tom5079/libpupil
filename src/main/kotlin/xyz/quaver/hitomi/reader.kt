@@ -34,7 +34,7 @@ data class GalleryInfo(
 @Serializable
 data class GalleryFiles(
     val width: Int,
-    val hash: String? = null,
+    val hash: String,
     val haswebp: Int = 0,
     val name: String,
     val height: Int,
