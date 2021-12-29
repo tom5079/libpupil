@@ -102,7 +102,7 @@ fun urlFromUrlFromHash(galleryID: Int, image: GalleryFiles, dir: String? = null,
         urlFromUrl(urlFromHash(galleryID, image, dir, ext), base)
 
 fun rewriteTnPaths(html: String) =
-    html.replace(Regex("""//tn\.hitomi\.la/[^/]+/[0-9a-f]/[0-9a-f]{2}/""")) { url ->
+    html.replace(Regex("""//tn\.hitomi\.la/[^/]+/[0-9a-f]/[0-9a-f]{2}/[0-9a-f]{64}""")) { url ->
         urlFromUrl(url.value, "tn")
     }
 
