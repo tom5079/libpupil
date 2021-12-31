@@ -40,9 +40,23 @@ object gg {
     private val ggjs by lazy { URL("https://ltn.hitomi.la/gg.js").readText() }
 
     private val oMap by lazy {
-        Regex("""case (\d+): o = (\d+); break;""").findAll(ggjs).map { m ->
-            m.groupValues.let { it[1].toInt() to it[2].toInt() }
-        }.toMap()
+        val map = mutableMapOf<Int, Int>()
+
+        var isOne = true
+        val caseRegex = Regex("""case (\d+):""")
+
+        ggjs.split('\n').forEach {
+            val caseMatch = caseRegex.find(it)
+
+            caseMatch?.groupValues?.let { group ->
+                map[group[1].toInt()] = if (isOne) 1 else 0
+            }
+
+            if (it == "o = 1; break;")
+                isOne = false
+        }
+
+        map
     }
 
     fun m(g: Int): Int {
@@ -110,8 +124,8 @@ fun imageUrlFromImage(galleryID: Int, image: GalleryFiles, noWebp: Boolean) : St
     return when {
         noWebp ->
             urlFromUrlFromHash(galleryID, image)
-      //image.hasavif != 0 ->
-      //    urlFromUrlFromHash(galleryID, image, "avif", null, "a")
+//        image.hasavif != 0 ->
+//            urlFromUrlFromHash(galleryID, image, "avif", null, "a")
         image.haswebp != 0 ->
             urlFromUrlFromHash(galleryID, image, "webp", null, "a")
         else ->

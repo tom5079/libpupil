@@ -20,13 +20,27 @@ package xyz.quaver.hitomi
 
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.junit.Test
-import xyz.quaver.client
 import java.util.*
 import org.junit.Assert.*
+import org.junit.Before
+import java.util.concurrent.TimeUnit
 
 class UnitTest {
+    lateinit var client: OkHttpClient
+
+    @Before
+    fun init() {
+        client = OkHttpClient.Builder()
+            .readTimeout(0, TimeUnit.SECONDS)
+            .writeTimeout(0, TimeUnit.SECONDS)
+            .callTimeout(0, TimeUnit.SECONDS)
+            .connectTimeout(0, TimeUnit.SECONDS)
+            .build()
+    }
+
     @Test
     fun test_empty() {
         print(
@@ -89,47 +103,30 @@ class UnitTest {
 
     @Test
     fun test_getImages() {
-        val expected = listOf(
-            "https://bb.hitomi.la/images/1639745412/3214/861706766f9680dc8d978ba4b4edea9ec18ea6e066f0aedbba09dd94f866d8ec.jpg",
-            "https://bb.hitomi.la/images/1639745412/2814/bfb60cc7dda17b04a58a7e3b9d923cb56e536172945e8e08a78d3ffeda0ccfea.jpg",
-            "https://ab.hitomi.la/images/1639745412/4006/4ff5a057d2b1120c9c40242db5da20fc9f3cd147a67d08d729f9b4cb6b51aa6f.jpg",
-            "https://bb.hitomi.la/images/1639745412/1465/bcddff65a05477dd88b9bd7f378e4622de48db0b7731a7d9c508e96b495aeb95.jpg",
-            "https://bb.hitomi.la/images/1639745412/2372/a8193e9c956791cf04b32e0ac7bb1056816c64b15eee3ea079af5f0006030449.jpg",
-            "https://ab.hitomi.la/images/1639745412/414/be574a1ddd67c048495c287b28320bd55447024715216200330c2027ffc969e1.jpg",
-            "https://bb.hitomi.la/images/1639745412/3807/681e985d9d6be186ea52a8366e5c5acebbbbf8f93683f1a033d87d7e0d3d1dfe.jpg",
-            "https://bb.hitomi.la/images/1639745412/3883/a8eb35f3d0494b24c3162245c2cb8cd488cf0fa2926c00f308f45502ede462bf.jpg",
-            "https://bb.hitomi.la/images/1639745412/3811/80020c727cbcb4ae718b773ebc58371df0e175d44707a63401c1625b37216e3e.jpg",
-            "https://bb.hitomi.la/images/1639745412/194/40cc5e1f53db89d10abad43be64dfa5329f0096e014622a9fa19cde6471a3c20.jpg",
-            "https://ab.hitomi.la/images/1639745412/1384/b47696a404c9788139b7a5899c23b4678def9a40a60d77b23efc7316d9b79685.jpg",
-            "https://bb.hitomi.la/images/1639745412/98/fffd32ece896a961e3ead019f7f2310339b84f75188c3c9dc3d7c7b178d03620.jpg",
-            "https://bb.hitomi.la/images/1639745412/3931/66aedc8af244ddc7d63bf268108cf6a3f11f1e85bca7fa70ef3cc91345c275bf.jpg",
-            "https://ab.hitomi.la/images/1639745412/1085/1a2eca4ddee4268518c7b7b25bbcc9facf2daaa4357a25e200adfece281173d4.jpg",
-            "https://ab.hitomi.la/images/1639745412/3556/17c7e0841759b640b9fc9ba1f46c5353c48b4e59b1d6efdf4327eceabae64e4d.jpg",
-            "https://bb.hitomi.la/images/1639745412/1880/80c0bc979379a5e43d658cdcec637e78c62500d637109d0cb38c902105bff587.jpg",
-            "https://ab.hitomi.la/images/1639745412/1882/2a22c484fa72302ce58ac0d3c53cf9e5c025d647698e1ba9308c1a02ac6675a7.jpg",
-            "https://bb.hitomi.la/images/1639745412/758/7f657575c75cedf3df82fdc290da64a1ae9107cf1a5e53346a43cb43d6abdf62.jpg",
-            "https://bb.hitomi.la/images/1639745412/2710/a2470712c971e64389b73685722f0993b865d6307a9cec42d2c5c118e41e596a.jpg",
-            "https://ab.hitomi.la/images/1639745412/3586/304ed08c39f8f4497f51c7899afc5d4dc1dfe232c8003761ba7c4315b1c1802e.jpg",
-            "https://bb.hitomi.la/images/1639745412/992/2f185b6ea7e9da7214517c0d6be04a1dba7e35d4c5234375214c4c4893d40e03.jpg",
-            "https://ab.hitomi.la/images/1639745412/1614/24762a235bb74bf4914ba111f9fe073a5d65e7e65bbfabca90bbffba1599b4e6.jpg",
-            "https://ab.hitomi.la/images/1639745412/2944/3052c3f029022740f73ead392ba8c405e93a43ad3fc5998d1852eebc35cee80b.jpg",
-            "https://bb.hitomi.la/images/1639745412/2735/48d78be359b4a7ad7281b687b711b638f725fefbbda68a4a54366b3d85e24afa.jpg",
-            "https://bb.hitomi.la/images/1639745412/2162/5a909ba4b25f48ab6d8edc1a89d49e4528970ba59e3b787871e2cad50a086728.jpg",
-            "https://ab.hitomi.la/images/1639745412/3757/31bd826c4ac7873e6ec176d5ef6bbb474d91f65c0c691695fc12a88048f27ade.jpg",
-            "https://bb.hitomi.la/images/1639745412/2183/24d7a53b645cc86363b3fadb365caafba8891506ae28bb150f2849269a973878.png",
-            "https://bb.hitomi.la/images/1639745412/1846/7c3cce3418f6d6bcd5e06d773b9901c6071203cb82122e39157799bda70d2367.png",
-            "https://ab.hitomi.la/images/1639745412/1615/0a450ffd44479f76d0d4fb463774db0a0252ce755388c915420fd91e1bf8d4f6.png"
-        )
+        val galleryID = 2059803
 
-        val actual = getGalleryInfo(1034095).files.map {
-            imageUrlFromImage(1034095, it, true)
+        val images = getGalleryInfo(galleryID).files.map {
+            imageUrlFromImage(galleryID, it,false)
         }
 
-        assertArrayEquals(expected.toTypedArray(), actual.toTypedArray())
+        images.forEachIndexed { index, image ->
+            println("Testing $index/${images.size}: $image")
+            val response = client.newCall(
+                Request.Builder()
+                    .url(image)
+                    .header("Referer", "https://hitomi.la/")
+                    .build()
+            ).execute()
+
+            assertEquals(200, response.code())
+
+            println("$index/${images.size} Passed")
+        }
     }
 
     @Test
     fun test_urlFromUrlFromHash() {
+
         val url = urlFromUrlFromHash(1531795, GalleryFiles(
             212, "719d46a7556be0d0021c5105878507129b5b3308b02cf67f18901b69dbb3b5ef", 1, "00.jpg", 300
         ), "webp")
