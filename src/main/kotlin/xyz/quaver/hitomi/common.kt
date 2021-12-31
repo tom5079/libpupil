@@ -42,20 +42,39 @@ object gg {
     private val oMap by lazy {
         val map = mutableMapOf<Int, Int>()
 
-        var isOne = true
-        val caseRegex = Regex("""case (\d+):""")
+        val regexA = Regex("""if \(g === (\d+)\) \{ o = (\d+); \}""")
+        val regexB = Regex("""case (\d+): o = (\d+); break;""")
 
-        ggjs.split('\n').forEach {
-            val caseMatch = caseRegex.find(it)
+        val lines = ggjs.split('\n')
 
-            caseMatch?.groupValues?.let { group ->
-                map[group[1].toInt()] = if (isOne) 1 else 0
+        if (lines.any { regexA.containsMatchIn(it) }) {
+            lines.forEach {
+                regexA.find(it)?.let {
+                    map[it.groupValues[1].toInt()] = it.groupValues[2].toInt()
+                }
             }
+        } else if (lines.any { regexB.containsMatchIn(it) }) {
+            lines.forEach {
+                regexB.find(it)?.let {
+                    map[it.groupValues[1].toInt()] = it.groupValues[2].toInt()
+                }
+            }
+        } else {
+            var isOne = true
+            val caseRegex = Regex("""case (\d+):""")
 
-            if (it == "o = 1; break;")
-                isOne = false
+            lines.forEach {
+                val caseMatch = caseRegex.find(it)
+
+                caseMatch?.groupValues?.let { group ->
+                    map[group[1].toInt()] = if (isOne) 1 else 0
+                }
+
+                if (it == "o = 1; break;")
+                    isOne = false
+            }
         }
-
+        
         map
     }
 

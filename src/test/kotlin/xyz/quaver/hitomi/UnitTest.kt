@@ -103,7 +103,7 @@ class UnitTest {
 
     @Test
     fun test_getImages() {
-        val galleryID = 2059803
+        val galleryID = 2099306
 
         val images = getGalleryInfo(galleryID).files.map {
             imageUrlFromImage(galleryID, it,false)
